@@ -23,7 +23,7 @@ public class UserRoleController {
   public void mapUserToRoles(@PathVariable("userNameOrEmail") String userNameOrEmail,
       @RequestBody @Valid MapUserToRolesRequest mapUserToRolesRequest) {
 
-    userRoleService.mapUserToRoles(userNameOrEmail, mapUserToRolesRequest);
+    userRoleService.mapUserToRoles(userNameOrEmail, mapUserToRolesRequest); // call
 
   }
 
@@ -31,7 +31,7 @@ public class UserRoleController {
   public void mapRoleToUsers(@PathVariable("roleName") String roleName,
       @RequestBody @Valid MapRoleToUsersRequest mapRoleToUsersRequest) {
 
-    userRoleService.mapRoleToUsers(roleName, mapRoleToUsersRequest);
+    userRoleService.mapRoleToUsers(roleName, mapRoleToUsersRequest); // call
 
   }
 }

@@ -29,19 +29,19 @@ public class ProductCategoryServiceImpl implements ProductCategoryService {
     public String createProductCategory(
         @Valid CreateProductCategoryRequest createProductCategoryRequest) {
 
-        ProductCategory productCategory = ProductCategory.builder()
-                .productCategoryName(createProductCategoryRequest.getProductCategoryName())
-                .description(createProductCategoryRequest.getDescription())
-                .build();
+        ProductCategory productCategory = ProductCategory.builder() // call
+                .productCategoryName(createProductCategoryRequest.getProductCategoryName()) // call // call
+                .description(createProductCategoryRequest.getDescription()) // call // call
+                .build(); // call
 
-        ProductCategory savedProductCategory = productCategoryRepository.save(productCategory);
-        return savedProductCategory.getProductCategoryId();
+        ProductCategory savedProductCategory = productCategoryRepository.save(productCategory); // call
+        return savedProductCategory.getProductCategoryId(); // call
     }
 
     @Override
     public ProductCategory getProductCategory(String productCategoryId) {
 
-        Optional<ProductCategory> productCategoryOptional = productCategoryRepository.findById(productCategoryId);
+        Optional<ProductCategory> productCategoryOptional = productCategoryRepository.findById(productCategoryId); // call
 
         ProductCategory productCategory = productCategoryOptional.orElseThrow(() -> new RuntimeException("Product Category doesn't exist!"));
 
@@ -51,7 +51,7 @@ public class ProductCategoryServiceImpl implements ProductCategoryService {
     @Override
     public void deleteProductCategory(String productCategoryId) {
 
-        productCategoryRepository.deleteById(productCategoryId);
+        productCategoryRepository.deleteById(productCategoryId); // call
 
     }
 
@@ -60,17 +60,17 @@ public class ProductCategoryServiceImpl implements ProductCategoryService {
 
         //To check weather the ProductCategory exist.
         ProductCategory getProductCategory =
-                this.getProductCategory(updateProductCategoryRequest.getProductCategoryId());
+                this.getProductCategory(updateProductCategoryRequest.getProductCategoryId()); // call // call
 
-        ProductCategory productCategory = ProductCategory.builder()
-                .productCategoryId(updateProductCategoryRequest.getProductCategoryId())
-                .productCategoryName(updateProductCategoryRequest.getProductCategoryName())
-                .description(updateProductCategoryRequest.getDescription())
+        ProductCategory productCategory = ProductCategory.builder() // call
+                .productCategoryId(updateProductCategoryRequest.getProductCategoryId()) // call // call
+                .productCategoryName(updateProductCategoryRequest.getProductCategoryName()) // call // call
+                .description(updateProductCategoryRequest.getDescription()) // call // call
                 .build();
 
-        productCategory.setCreatedAt(getProductCategory.getCreatedAt());
+        productCategory.setCreatedAt(getProductCategory.getCreatedAt()); // call // call
 
-        productCategoryRepository.save(productCategory);
+        productCategoryRepository.save(productCategory); // call
 
     }
     
@@ -107,6 +107,6 @@ public class ProductCategoryServiceImpl implements ProductCategoryService {
             
         }
         
-        return productCategoryRepository.findAll(pageable);
+        return productCategoryRepository.findAll(pageable); // call
     }
 }

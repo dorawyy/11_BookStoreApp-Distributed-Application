@@ -51,11 +51,11 @@ public class Role extends DateAudit {
 
   public void addUser(User user) {
     this.users.add(user);
-    user.getRoles().add(this);
+    user.getRoles().add(this); // call, missing
   }
 
   public void removeUser(User user) {
     this.users.remove(user);
-    user.getRoles().remove(this);
+    user.getRoles().remove(this); // call, missing
   }
 }

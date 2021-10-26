@@ -81,14 +81,14 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
   public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
     endpoints.authenticationManager(this.authenticationManager)
         .userDetailsService(appUserDetailsService)
-        .accessTokenConverter(jwtAccessTokenConverter())
-        .tokenStore(tokenStore());
+        .accessTokenConverter(jwtAccessTokenConverter()) // call 
+        .tokenStore(tokenStore()); // call
   }
 
   @Bean
   @Primary
   public TokenStore tokenStore() {
-    return new JwtTokenStore(jwtAccessTokenConverter());
+    return new JwtTokenStore(jwtAccessTokenConverter()); // call 
   }
 
   @Bean
@@ -108,10 +108,10 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
       public OAuth2AccessToken enhance(OAuth2AccessToken accessToken, OAuth2Authentication authentication) {
 
         User principal = (User) authentication.getUserAuthentication().getPrincipal();
-          Optional<com.devd.spring.bookstoreaccountservice.repository.dao.User> userDetail
-                  = userRepository.findByUserName(principal.getUsername());
+          Optional<com.devd.spring.bookstoreaccountservice.repository.dao.Usjava.er> userDetail
+                  = userRepository.findByUserName(principal.getUsername()); // call, missing 
           final Map<String, Object> additionalInfo = new HashMap<>();
-        userDetail.ifPresent(user -> additionalInfo.put("user_id", user.getUserId()));
+        userDetail.ifPresent(user -> additionalInfo.put("user_id", user.getUserId())); // call, missing, com.devd.spring.bookstoreaccountservice.repository.dao.User: java.lang.String getUserId()
           ((DefaultOAuth2AccessToken) accessToken)
                   .setAdditionalInformation(additionalInfo);
 
@@ -121,10 +121,10 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
       }
     };
 
-    KeyStoreKeyFactory keyStoreKeyFactory = keyStoreKeyFactory();
-    KeyPair keyPair = keyPair(keyStoreKeyFactory);
+    KeyStoreKeyFactory keyStoreKeyFactory = keyStoreKeyFactory(); // call 
+    KeyPair keyPair = keyPair(keyStoreKeyFactory); // call
     jwtAccessTokenConverter.setKeyPair(keyPair);
-    jwtAccessTokenConverter.setVerifierKey(getPublicKeyAsString());
+    jwtAccessTokenConverter.setVerifierKey(getPublicKeyAsString()); // call
     return jwtAccessTokenConverter;
   }
 

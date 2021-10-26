@@ -39,7 +39,7 @@ public class ImageUploadController {
     @PreAuthorize("hasAuthority('ADMIN_USER')")
     public ResponseEntity<?> uploadImage(@RequestParam("imageFile") MultipartFile file) throws IOException {
         if (file == null) {
-            throw new RunTimeExceptionPlaceHolder("Invalid Image!!");
+            throw new RunTimeExceptionPlaceHolder("Invalid Image!!"); // call 
         }
         UUID uuid = UUID.randomUUID();
         String fileName = StringUtils.cleanPath(file.getOriginalFilename());

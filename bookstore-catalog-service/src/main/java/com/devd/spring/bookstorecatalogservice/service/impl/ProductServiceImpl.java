@@ -49,51 +49,51 @@ public class ProductServiceImpl implements ProductService {
     public String createProduct(@Valid CreateProductRequest createProductRequest) {
 
         Optional<ProductCategory> productCategoryOptional =
-                productCategoryRepository.findById(createProductRequest.getProductCategoryId());
+                productCategoryRepository.findById(createProductRequest.getProductCategoryId()); // call // call
 
         ProductCategory productCategory = productCategoryOptional.orElseThrow(() -> new RuntimeException("ProductCategory doesn't exist!"));
 
-        Product product = Product.builder()
-                .productName(createProductRequest.getProductName())
-                .description(createProductRequest.getDescription())
-                .availableItemCount(createProductRequest.getAvailableItemCount())
-                .price(createProductRequest.getPrice())
-                .productCategory(productCategory)
-                .imageId(createProductRequest.getImageId())
-                .build();
+        Product product = Product.builder() // call 
+                .productName(createProductRequest.getProductName()) // call // call 
+                .description(createProductRequest.getDescription()) // call // call 
+                .availableItemCount(createProductRequest.getAvailableItemCount()) // call // call 
+                .price(createProductRequest.getPrice()) // call // call
+                .productCategory(productCategory) // call 
+                .imageId(createProductRequest.getImageId()) // call // call
+                .build(); // call
 
 
-        Product savedProduct = productRepository.save(product);
-        return savedProduct.getProductId();
+        Product savedProduct = productRepository.save(product); // call
+        return savedProduct.getProductId(); // call
     }
 
     @Override
     public ProductResponse getProduct(String productId) {
         Optional<Product> productOptional =
-                productRepository.findById(productId);
+                productRepository.findById(productId); // call 
 
         Product product = productOptional.orElseThrow(() -> new RuntimeException("Product Id doesn't exist!"));
         ProductResponse productResponse = objectMapper.convertValue(product, ProductResponse.class);
-        populateRatingForProduct(productId, productResponse);
+        populateRatingForProduct(productId, productResponse); // call
         return productResponse;
     }
 
     //This way of setting rating for productResponse is not okay, But this is okay for now.
     private void populateRatingForProduct(String productId, ProductResponse productResponse) {
-        List<Review> reviewsForProduct = reviewService.getReviewsForProduct(productId);
+        List<Review> reviewsForProduct = reviewService.getReviewsForProduct(productId); // call
         if (reviewsForProduct.size() > 0) {
-            double sum = reviewsForProduct.stream().mapToDouble(Review::getRatingValue).sum();
+            double sum = reviewsForProduct.stream().mapToDouble(Review::getRatingValue).sum(); // call
             double rating = sum / reviewsForProduct.size();
-            productResponse.setAverageRating(rating);
+            productResponse.setAverageRating(rating); // call
         }
 
-        productResponse.setNoOfRatings(Math.toIntExact(reviewRepository.countAllByProductId(productId)));
+        productResponse.setNoOfRatings(Math.toIntExact(reviewRepository.countAllByProductId(productId))); // call // call
     }
 
     @Override
     public void deleteProduct(String productId) {
 
-        productRepository.deleteById(productId);
+        productRepository.deleteById(productId); // call
 
     }
 
@@ -101,50 +101,50 @@ public class ProductServiceImpl implements ProductService {
     public void updateProduct(UpdateProductRequest updateProductRequest) {
 
         Optional<Product> productOptional =
-                productRepository.findById(updateProductRequest.getProductId());
+                productRepository.findById(updateProductRequest.getProductId()); // call // call
 
         //check weather product exists
         final Product productExisting = productOptional.orElseThrow(() -> new RuntimeException("Product Id doesn't exist!"));
 
-        productExisting.setProductId(updateProductRequest.getProductId());
+        productExisting.setProductId(updateProductRequest.getProductId()); // call // call 
 
-        if (updateProductRequest.getProductName() != null) {
-            productExisting.setProductName(updateProductRequest.getProductName());
+        if (updateProductRequest.getProductName() != null) { // call 
+            productExisting.setProductName(updateProductRequest.getProductName()); // call // call
         }
 
-        if (updateProductRequest.getDescription() != null) {
-            productExisting.setDescription(updateProductRequest.getDescription());
+        if (updateProductRequest.getDescription() != null) { // call 
+            productExisting.setDescription(updateProductRequest.getDescription()); // call // call
         }
 
-        if (updateProductRequest.getPrice() != null) {
-            productExisting.setPrice(updateProductRequest.getPrice());
+        if (updateProductRequest.getPrice() != null) { // call 
+            productExisting.setPrice(updateProductRequest.getPrice()); // call // call
         }
 
-        if (updateProductRequest.getImageId() != null) {
-            productExisting.setImageId(updateProductRequest.getImageId());
+        if (updateProductRequest.getImageId() != null) { // call 
+            productExisting.setImageId(updateProductRequest.getImageId()); // call // call
         }
 
-        if (updateProductRequest.getProductCategoryId() != null) {
+        if (updateProductRequest.getProductCategoryId() != null) { // call
             Optional<ProductCategory> productCategoryOptional =
-                    productCategoryRepository.findById(updateProductRequest.getProductCategoryId());
+                    productCategoryRepository.findById(updateProductRequest.getProductCategoryId()); // call // call
 
             //check weather product category exists
             ProductCategory productCategory = productCategoryOptional.orElseThrow(() -> new RuntimeException("ProductCategory doesn't exist!"));
-            productExisting.setProductCategory(productCategory);
+            productExisting.setProductCategory(productCategory); // call
         }
 
         if (updateProductRequest.getAvailableItemCount() != null) {
-            productExisting.setAvailableItemCount(updateProductRequest.getAvailableItemCount());
+            productExisting.setAvailableItemCount(updateProductRequest.getAvailableItemCount()); // call // call
         }
 
-        productExisting.setCreatedAt(productExisting.getCreatedAt());
+        productExisting.setCreatedAt(productExisting.getCreatedAt()); // call
 
-        productRepository.save(productExisting);
+        productRepository.save(productExisting); // call
     }
 
     @Override
     public Page<Product> findAllProducts(Pageable pageable) {
-        return productRepository.findAll(pageable);
+        return productRepository.findAll(pageable); // call
     }
     
     @Override
@@ -179,9 +179,9 @@ public class ProductServiceImpl implements ProductService {
             }
             
         }
-        Page<Product> allProducts = productRepository.findAll(pageable);
-        Page<ProductResponse> allProductsResponse = allProducts.map(Product::fromEntity);
-        allProductsResponse.forEach(productResponse -> populateRatingForProduct(productResponse.getProductId(), productResponse));
+        Page<Product> allProducts = productRepository.findAll(pageable); // call 
+        Page<ProductResponse> allProductsResponse = allProducts.map(Product::fromEntity); // call 
+        allProductsResponse.forEach(productResponse -> populateRatingForProduct(productResponse.getProductId(), productResponse)); // call // call
 
         return allProductsResponse;
     }

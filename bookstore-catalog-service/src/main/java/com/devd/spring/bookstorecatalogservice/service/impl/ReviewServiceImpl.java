@@ -37,38 +37,38 @@ public class ReviewServiceImpl implements ReviewService {
     @Override
     public void createOrUpdateReview(CreateOrUpdateReviewRequest createOrUpdateReviewRequest) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String userIdFromToken = getUserIdFromToken(authentication);
-        String userNameFromToken = getUserNameFromToken(authentication);
+        String userIdFromToken = getUserIdFromToken(authentication); // call 
+        String userNameFromToken = getUserNameFromToken(authentication); // call
 
         //check whether product exists.
-        ProductResponse product = productService.getProduct(createOrUpdateReviewRequest.getProductId());
+        ProductResponse product = productService.getProduct(createOrUpdateReviewRequest.getProductId()); // call // call
         if (product == null) {
             throw new RuntimeException("Product doesn't exist!");
         }
 
-        Optional<Review> review = reviewRepository.findByUserIdAndProductId(userIdFromToken, createOrUpdateReviewRequest.getProductId());
+        Optional<Review> review = reviewRepository.findByUserIdAndProductId(userIdFromToken, createOrUpdateReviewRequest.getProductId()); // call // call
 
         if (review.isPresent()) {
             Review updatedReview = review.get();
-            updatedReview.setRatingValue(createOrUpdateReviewRequest.getRatingValue());
-            updatedReview.setReviewMessage(createOrUpdateReviewRequest.getReviewMessage());
-            reviewRepository.save(updatedReview);
+            updatedReview.setRatingValue(createOrUpdateReviewRequest.getRatingValue()); // call // call
+            updatedReview.setReviewMessage(createOrUpdateReviewRequest.getReviewMessage()); // call // call
+            reviewRepository.save(updatedReview); // call 
         } else {
-            Review newReview = Review.builder()
-                    .reviewMessage(createOrUpdateReviewRequest.getReviewMessage())
-                    .ratingValue(createOrUpdateReviewRequest.getRatingValue())
-                    .userId(userIdFromToken)
-                    .userName(userNameFromToken)
-                    .productId(createOrUpdateReviewRequest.getProductId())
-                    .build();
-            reviewRepository.save(newReview);
+            Review newReview = Review.builder() // call 
+                    .reviewMessage(createOrUpdateReviewRequest.getReviewMessage()) // call // call
+                    .ratingValue(createOrUpdateReviewRequest.getRatingValue()) // call // call
+                    .userId(userIdFromToken) // call 
+                    .userName(userNameFromToken) // call 
+                    .productId(createOrUpdateReviewRequest.getProductId()) // call // call 
+                    .build(); // call
+            reviewRepository.save(newReview); // call
         }
     }
 
     @Override
     public List<Review> getReviewsForProduct(String productId) {
 
-        Optional<List<Review>> reviewsForProduct = reviewRepository.findAllByProductId(productId);
+        Optional<List<Review>> reviewsForProduct = reviewRepository.findAllByProductId(productId); // call 
         return reviewsForProduct.orElseGet(ArrayList::new);
 
     }

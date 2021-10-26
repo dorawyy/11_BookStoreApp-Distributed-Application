@@ -65,58 +65,58 @@ public class AuthServiceImpl implements AuthService {
     String clientSecret = UUID.randomUUID().toString();
     String encode = passwordEncoder.encode(clientSecret);
 
-    OAuthClient oAuthClient = OAuthClient.builder()
-        .client_secret(encode)
-        .authorities(String.join(",", createOAuthClientRequest.getAuthorities()))
-        .authorized_grant_types(
-            String.join(",", createOAuthClientRequest.getAuthorized_grant_types()))
-        .scope(String.join(",", createOAuthClientRequest.getScope()))
-        .resource_ids(String.join(",", createOAuthClientRequest.getResource_ids()))
-        .build();
+    OAuthClient oAuthClient = OAuthClient.builder() // call, missing
+        .client_secret(encode) // call, missing
+        .authorities(String.join(",", createOAuthClientRequest.getAuthorities())) // call, missing // call, missing
+        .authorized_grant_types( // call, missing
+            String.join(",", createOAuthClientRequest.getAuthorized_grant_types())) // call, missing 
+        .scope(String.join(",", createOAuthClientRequest.getScope())) // call, missing // call, missing
+        .resource_ids(String.join(",", createOAuthClientRequest.getResource_ids()))  // call, missing // call, missing
+        .build();  // call, missing
 
-    OAuthClient saved = oAuthClientRepository.save(oAuthClient);
+    OAuthClient saved = oAuthClientRepository.save(oAuthClient); // call, missing
 
-    return CreateOAuthClientResponse.builder()
-        .client_id(saved.getClient_id())
-        .client_secret(clientSecret)
-        .build();
+    return CreateOAuthClientResponse.builder() // call, missing 
+        .client_id(saved.getClient_id()) // call, missing // call, missing 
+        .client_secret(clientSecret) // call, missing
+        .build(); // call, missing
 
   }
 
   @Override
   public CreateUserResponse registerUser(SignUpRequest signUpRequest) {
 
-    if (userRepository.existsByUserName(signUpRequest.getUserName())) {
-      throw new RunTimeExceptionPlaceHolder("Username is already taken!!");
+    if (userRepository.existsByUserName(signUpRequest.getUserName())) { // call, missing // call, missing 
+      throw new RunTimeExceptionPlaceHolder("Username is already taken!!"); // call, missing
     }
 
-    if (userRepository.existsByEmail(signUpRequest.getEmail())) {
-      throw new RunTimeExceptionPlaceHolder("Email address already in use!!");
+    if (userRepository.existsByEmail(signUpRequest.getEmail())) { // call, missing // call, missing
+      throw new RunTimeExceptionPlaceHolder("Email address already in use!!"); // call. missing 
     }
 
     // Creating user's account
     com.devd.spring.bookstoreaccountservice.repository.dao.User user =
-        new com.devd.spring.bookstoreaccountservice.repository.dao.User(
-            signUpRequest.getUserName(),
-            signUpRequest.getPassword(),
-            signUpRequest.getFirstName(),
-            signUpRequest.getLastName(),
-            signUpRequest.getEmail());
+        new com.devd.spring.bookstoreaccountservice.repository.dao.User( // call, missing
+            signUpRequest.getUserName(), // call, missing
+            signUpRequest.getPassword(), // call, missing
+            signUpRequest.getFirstName(), // call, missing
+            signUpRequest.getLastName(), // call, missing
+            signUpRequest.getEmail()); // call, missing
 
-    user.setPassword(passwordEncoder.encode(user.getPassword()));
+    user.setPassword(passwordEncoder.encode(user.getPassword())); // call, missing // call, missing 
 
-    Role userRole = roleRepository.findByRoleName("STANDARD_USER")
+    Role userRole = roleRepository.findByRoleName("STANDARD_USER") // call, missing (interface)
         .orElseThrow(() -> new RuntimeException("User Role not set."));
 
-    user.setRoles(Collections.singleton(userRole));
+    user.setRoles(Collections.singleton(userRole)); // call, missing
 
     com.devd.spring.bookstoreaccountservice.repository.dao.User savedUser =
-        userRepository.save(user);
+        userRepository.save(user); // call, missing
 
-    return CreateUserResponse.builder()
-        .userId(savedUser.getUserId())
-        .userName(savedUser.getUserName())
-        .build();
+    return CreateUserResponse.builder() // call, missing
+        .userId(savedUser.getUserId()) // call, missing // call, missing
+        .userName(savedUser.getUserName()) // call, missing // call, missing
+        .build(); // call, missing
 
   }
 }

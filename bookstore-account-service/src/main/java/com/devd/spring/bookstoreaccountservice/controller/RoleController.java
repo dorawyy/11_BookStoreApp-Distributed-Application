@@ -28,19 +28,19 @@ public class RoleController {
   @PreAuthorize("hasAuthority('ADMIN_USER')")
   public ResponseEntity<?> createRole(@RequestBody @Valid CreateRoleRequest createRoleRequest) {
 
-    String userId = roleService.createRole(createRoleRequest);
+    String userId = roleService.createRole(createRoleRequest); // call 
 
     URI location = ServletUriComponentsBuilder
         .fromCurrentRequest().path("/{roleId}")
         .buildAndExpand(userId).toUri();
 
-    return ResponseEntity.created(location).build();
+    return ResponseEntity.created(location).build(); 
   }
 
   @GetMapping("/roles")
   @PreAuthorize("hasAuthority('ADMIN_USER')")
   public ResponseEntity<?> getAllRoles() {
-    List<Role> allRoles = roleService.getAllRoles();
+    List<Role> allRoles = roleService.getAllRoles(); // call 
     return ResponseEntity.ok(allRoles);
 
   }

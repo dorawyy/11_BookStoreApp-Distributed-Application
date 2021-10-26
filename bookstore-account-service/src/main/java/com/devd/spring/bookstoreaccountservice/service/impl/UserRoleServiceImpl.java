@@ -35,39 +35,39 @@ public class UserRoleServiceImpl implements UserRoleService {
   public void mapUserToRoles(String userNameOrEmail, MapUserToRolesRequest mapUserToRolesRequest) {
 
     Optional<User> userNameOrEmailOptional = userRepository
-        .findByUserNameOrEmail(userNameOrEmail, userNameOrEmail);
+        .findByUserNameOrEmail(userNameOrEmail, userNameOrEmail); // call, missing 
 
     User user = userNameOrEmailOptional.orElseThrow(() ->
-        new RunTimeExceptionPlaceHolder("UserNameOrEmail doesn't exist!!")
+        new RunTimeExceptionPlaceHolder("UserNameOrEmail doesn't exist!!") // call, missing
     );
 
-    Set<Role> roles = user.getRoles();
+    Set<Role> roles = user.getRoles(); // call, missing
 
-    ErrorResponse errorResponse = ErrorResponse.builder()
-        .uuid(UUID.randomUUID())
-        .errors(new ArrayList<>())
-        .build();
+    ErrorResponse errorResponse = ErrorResponse.builder() // call, missing
+        .uuid(UUID.randomUUID()) // call, missing
+        .errors(new ArrayList<>()) // call, missing
+        .build(); // call
 
-    mapUserToRolesRequest.getRoleNames().forEach(roleName -> {
+    mapUserToRolesRequest.getRoleNames().forEach(roleName -> { // call, missing
       //if role exists add to list and persist, else add to error response persist valid roles and send
       // response containing invalid roles.
-      roleRepository.findByRoleName(roleName).<Runnable>map(role -> () -> roles.add(role))
+      roleRepository.findByRoleName(roleName).<Runnable>map(role -> () -> roles.add(role)) // call, missing
           .orElse(() -> {
-            Error error = Error.builder()
-                .code("400")
-                .message(roleName + " role doesn't exist!!")
-                .build();
-            errorResponse.getErrors().add(error);
+            Error error = Error.builder() // call, missing
+                .code("400") // call, missing
+                .message(roleName + " role doesn't exist!!") // call, missing
+                .build(); // call, missing
+            errorResponse.getErrors().add(error); // call, missing
           })
-          .run();
+          .run(); // call, missing
     });
 
-    user.setRoles(roles);
+    user.setRoles(roles); // call, missing
 
-    userRepository.save(user);
+    userRepository.save(user); // call, missing
 
-    if (!errorResponse.getErrors().isEmpty()) {
-      throw new SuccessCodeWithErrorResponse(errorResponse);
+    if (!errorResponse.getErrors().isEmpty()) { // call, missing
+      throw new SuccessCodeWithErrorResponse(errorResponse); // call, missing
     }
 
   }
@@ -76,69 +76,69 @@ public class UserRoleServiceImpl implements UserRoleService {
   public void removeRolesFromUser(String userNameOrEmail, MapUserToRolesRequest mapUserToRolesRequest) {
 
     Optional<User> userNameOrEmailOptional = userRepository
-            .findByUserNameOrEmail(userNameOrEmail, userNameOrEmail);
+            .findByUserNameOrEmail(userNameOrEmail, userNameOrEmail); // call, missing
 
     User user = userNameOrEmailOptional.orElseThrow(() ->
-            new RunTimeExceptionPlaceHolder("UserNameOrEmail doesn't exist!!")
+            new RunTimeExceptionPlaceHolder("UserNameOrEmail doesn't exist!!") // call, missing
     );
 
-    Set<Role> roles = user.getRoles();
+    Set<Role> roles = user.getRoles(); // call, missing
 
-    ErrorResponse errorResponse = ErrorResponse.builder()
-            .uuid(UUID.randomUUID())
-            .errors(new ArrayList<>())
-            .build();
+    ErrorResponse errorResponse = ErrorResponse.builder() // call, missing
+            .uuid(UUID.randomUUID()) // call, missing
+            .errors(new ArrayList<>()) // call, missing
+            .build(); // call, missing
 
-    mapUserToRolesRequest.getRoleNames().forEach(roleName -> {
+    mapUserToRolesRequest.getRoleNames().forEach(roleName -> { // call, missing
       //if role exists add to list and persist, else add to error response persist valid roles and send
       // response containing invalid roles.
-      roleRepository.findByRoleName(roleName).<Runnable>map(role -> () -> roles.remove(role))
+      roleRepository.findByRoleName(roleName).<Runnable>map(role -> () -> roles.remove(role)) // call, missing
               .orElse(() -> {
-                Error error = Error.builder()
-                        .code("400")
-                        .message(roleName + " role doesn't exist!!")
-                        .build();
-                errorResponse.getErrors().add(error);
+                Error error = Error.builder() // call, missing
+                        .code("400") // call, missing
+                        .message(roleName + " role doesn't exist!!") // call, missing
+                        .build(); // call, missing
+                errorResponse.getErrors().add(error); // call, missing
               })
-              .run();
+              .run(); // call, missing
     });
 
-    user.setRoles(roles);
+    user.setRoles(roles); // call, missing
 
-    userRepository.save(user);
+    userRepository.save(user); // call, missing
 
-    if (!errorResponse.getErrors().isEmpty()) {
-      throw new SuccessCodeWithErrorResponse(errorResponse);
+    if (!errorResponse.getErrors().isEmpty()) { // call, missing
+      throw new SuccessCodeWithErrorResponse(errorResponse); // call, missing
     }
   }
 
   @Override
   public void mapRoleToUsers(String roleName, MapRoleToUsersRequest mapRoleToUsersRequest) {
 
-    Role role = roleRepository.findByRoleName(roleName)
+    Role role = roleRepository.findByRoleName(roleName) // call, missing
         .orElseThrow(() -> new RuntimeException("Role doesn't exist!!"));
 
-    ErrorResponse errorResponse = ErrorResponse.builder()
-        .uuid(UUID.randomUUID())
-        .errors(new ArrayList<>())
-        .build();
+    ErrorResponse errorResponse = ErrorResponse.builder() // call, missing
+        .uuid(UUID.randomUUID()) // call, missing
+        .errors(new ArrayList<>()) // call, missing
+        .build(); // call, missing
 
-    mapRoleToUsersRequest.getUserNames().forEach(userName -> {
-      userRepository.findByUserName(userName).<Runnable>map(user -> () -> role.addUser(user))
+    mapRoleToUsersRequest.getUserNames().forEach(userName -> { // call, missing
+      userRepository.findByUserName(userName).<Runnable>map(user -> () -> role.addUser(user)) // call, missing // call, missing
           .orElse(() -> {
-            Error error = Error.builder()
-                .code("400")
-                .message(userName + " userName doesn't exist!!")
-                .build();
-            errorResponse.getErrors().add(error);
+            Error error = Error.builder() // call, missing
+                .code("400") // call, missing
+                .message(userName + " userName doesn't exist!!") // call, missing
+                .build(); // call, missing
+            errorResponse.getErrors().add(error); // call, missing
           })
-          .run();
+          .run(); // call, missing
     });
 
-    roleRepository.save(role);
+    roleRepository.save(role); // call, missing
 
-    if (!errorResponse.getErrors().isEmpty()) {
-      throw new SuccessCodeWithErrorResponse(errorResponse);
+    if (!errorResponse.getErrors().isEmpty()) { // call, missing
+      throw new SuccessCodeWithErrorResponse(errorResponse); // call, missing
     }
   }
 }

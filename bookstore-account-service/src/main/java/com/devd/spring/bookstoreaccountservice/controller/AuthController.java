@@ -31,14 +31,14 @@ public class AuthController {
   public ResponseEntity<CreateOAuthClientResponse> createOAuthClient(
       @Valid @RequestBody CreateOAuthClientRequest createOAuthClientRequest) {
 
-    CreateOAuthClientResponse oAuthClient = authService.createOAuthClient(createOAuthClientRequest);
+    CreateOAuthClientResponse oAuthClient = authService.createOAuthClient(createOAuthClientRequest); // call
     return new ResponseEntity<>(oAuthClient, HttpStatus.CREATED);
   }
 
   @PostMapping("/signup")
   public ResponseEntity<?> registerUser(@Valid @RequestBody SignUpRequest signUpRequest) {
 
-    CreateUserResponse createUserResponse = authService.registerUser(signUpRequest);
+    CreateUserResponse createUserResponse = authService.registerUser(signUpRequest); // call
 
     return new ResponseEntity<>(createUserResponse, HttpStatus.CREATED);
   }

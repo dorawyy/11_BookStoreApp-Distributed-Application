@@ -40,7 +40,7 @@ public class UserController {
   @PreAuthorize("hasAuthority('ADMIN_USER')")
   public ResponseEntity<?> createUser(@RequestBody @Valid CreateUserRequest createUserRequest) {
 
-    String userId = userService.createUser(createUserRequest);
+    String userId = userService.createUser(createUserRequest); // call 
 
     URI location = ServletUriComponentsBuilder
         .fromCurrentRequest().path("/{userId}")
@@ -57,9 +57,9 @@ public class UserController {
 
     GetUserResponse user = null;
     if (userName.isPresent()) {
-      user = userService.getUserByUserName(userName.get());
+      user = userService.getUserByUserName(userName.get()); // call 
     } else if (userId.isPresent()) {
-      user = userService.getUserByUserId(userId.get());
+      user = userService.getUserByUserId(userId.get()); // call
     }
     return ResponseEntity.ok(user);
   }
@@ -69,33 +69,33 @@ public class UserController {
   public ResponseEntity<?> updateUser(@PathVariable("userId") String userId,
                                       @RequestBody @Valid UpdateUserRequestFromAdmin updateUserRequestFromAdmin) {
 
-    userService.updateUser(userId,updateUserRequestFromAdmin);
+    userService.updateUser(userId,updateUserRequestFromAdmin); // call
     return ResponseEntity.ok().build();
   }
 
   @GetMapping("/users")
   @PreAuthorize("hasAuthority('ADMIN_USER')")
   public ResponseEntity<List<GetUserResponse>> getAllUsers() {
-    List<GetUserResponse> allUsers = userService.getAllUsers();
+    List<GetUserResponse> allUsers = userService.getAllUsers(); // call
     return ResponseEntity.ok(allUsers);
   }
 
   @GetMapping("/userInfo")
   public ResponseEntity<GetUserInfoResponse> getUserInfo() {
-    GetUserInfoResponse userInfo = userService.getUserInfo();
+    GetUserInfoResponse userInfo = userService.getUserInfo(); // call
     return new ResponseEntity<>(userInfo, HttpStatus.OK);
   }
 
   @PutMapping("/userInfo")
   public ResponseEntity<?> updateUserInfo(@RequestBody @Valid UpdateUserRequest updateUserRequest) {
-    userService.updateUserInfo(updateUserRequest);
+    userService.updateUserInfo(updateUserRequest); // call
     return new ResponseEntity<>(HttpStatus.OK);
   }
 
   @DeleteMapping("/user/{userId}")
   @PreAuthorize("hasAuthority('ADMIN_USER')")
   public ResponseEntity<?> deleteUserById(@PathVariable("userId") String userId){
-    userService.deleteUserById(userId);
+    userService.deleteUserById(userId); // call
     return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
   }
 

@@ -40,7 +40,7 @@ public class ProductCategoryController {
     @PreAuthorize("hasAuthority('ADMIN_USER')")
     public ResponseEntity<?> createProductCategory(@RequestBody @Valid CreateProductCategoryRequest createProductCategoryRequest) {
 
-        String productCategory = productCategoryService.createProductCategory(createProductCategoryRequest);
+        String productCategory = productCategoryService.createProductCategory(createProductCategoryRequest); // call
 
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest().path("/{productCategoryId}")
@@ -52,7 +52,7 @@ public class ProductCategoryController {
     @GetMapping("/productCategory/{productCategoryId}")
     public ResponseEntity<ProductCategory> getProductCategory(@PathVariable("productCategoryId") String productCategoryId) {
 
-        ProductCategory productCategory = productCategoryService.getProductCategory(productCategoryId);
+        ProductCategory productCategory = productCategoryService.getProductCategory(productCategoryId); // call 
 
         return ResponseEntity.ok(productCategory);
     }
@@ -61,7 +61,7 @@ public class ProductCategoryController {
     @PreAuthorize("hasAuthority('ADMIN_USER')")
     public ResponseEntity<?> deleteProductCategory(@PathVariable("productCategoryId") String productCategoryId) {
 
-        productCategoryService.deleteProductCategory(productCategoryId);
+        productCategoryService.deleteProductCategory(productCategoryId); // call 
 
         return ResponseEntity.noContent().build();
     }
@@ -70,7 +70,7 @@ public class ProductCategoryController {
     @PreAuthorize("hasAuthority('ADMIN_USER')")
     public ResponseEntity<?> updateProductCategory(@RequestBody @Valid UpdateProductCategoryRequest updateProductCategoryRequest) {
 
-        productCategoryService.updateProductCategory(updateProductCategoryRequest);
+        productCategoryService.updateProductCategory(updateProductCategoryRequest); // call 
 
         return ResponseEntity.noContent().build();
     }
@@ -81,7 +81,7 @@ public class ProductCategoryController {
                                                      @RequestParam(value = "size", required = false) Integer size,
                                                      PagedResourcesAssembler<ProductCategory> assembler) {
     
-        Page<ProductCategory> list = productCategoryService.getAllProductCategories(sort, page, size);
+        Page<ProductCategory> list = productCategoryService.getAllProductCategories(sort, page, size); // call, missing
     
         Link link = new Link(ServletUriComponentsBuilder.fromCurrentRequest()
                                                         .build()
@@ -89,27 +89,27 @@ public class ProductCategoryController {
 
         PagedModel<EntityModel<ProductCategory>> resource = assembler.toModel(list, link);
     
-        ProductCategoriesPagedResponse productCategoriesPagedResponse = new ProductCategoriesPagedResponse();
-        productCategoriesPagedResponse.setPage(list);
+        ProductCategoriesPagedResponse productCategoriesPagedResponse = new ProductCategoriesPagedResponse(); // call, missing
+        productCategoriesPagedResponse.setPage(list); // call 
 
         if (resource.getLink("first").isPresent()) {
-            productCategoriesPagedResponse.get_links().put("first", resource.getLink("first").get().getHref());
+            productCategoriesPagedResponse.get_links().put("first", resource.getLink("first").get().getHref()); // call, missing
         }
 
         if (resource.getLink("prev").isPresent()) {
-            productCategoriesPagedResponse.get_links().put("prev", resource.getLink("prev").get().getHref());
+            productCategoriesPagedResponse.get_links().put("prev", resource.getLink("prev").get().getHref()); // call, missing
         }
 
         if (resource.getLink("self").isPresent()) {
-            productCategoriesPagedResponse.get_links().put("self", resource.getLink("self").get().getHref());
+            productCategoriesPagedResponse.get_links().put("self", resource.getLink("self").get().getHref()); // call, missing
         }
 
         if (resource.getLink("next").isPresent()) {
-            productCategoriesPagedResponse.get_links().put("next", resource.getLink("next").get().getHref());
+            productCategoriesPagedResponse.get_links().put("next", resource.getLink("next").get().getHref()); // call, missing
         }
 
         if (resource.getLink("last").isPresent()) {
-            productCategoriesPagedResponse.get_links().put("last", resource.getLink("last").get().getHref());
+            productCategoriesPagedResponse.get_links().put("last", resource.getLink("last").get().getHref()); // call, missing
         }
     
         return ResponseEntity.ok(productCategoriesPagedResponse);

@@ -50,90 +50,90 @@ public class UserServiceImpl implements UserService {
   @Override
   public String createUser(CreateUserRequest createUserRequest) {
 
-    String encodedPassword = passwordEncoder.encode(createUserRequest.getPassword());
+    String encodedPassword = passwordEncoder.encode(createUserRequest.getPassword()); // call, missing
 
-    if (userRepository.existsByUserName(createUserRequest.getUserName())) {
-      throw new RunTimeExceptionPlaceHolder("Username is already taken!!");
+    if (userRepository.existsByUserName(createUserRequest.getUserName())) { // call, missing // call, missing
+      throw new RunTimeExceptionPlaceHolder("Username is already taken!!"); // call, missing
     }
 
-    if (userRepository.existsByEmail(createUserRequest.getEmail())) {
-      throw new RunTimeExceptionPlaceHolder("Email address already in use!!");
+    if (userRepository.existsByEmail(createUserRequest.getEmail())) { // call, missing // call, missing
+      throw new RunTimeExceptionPlaceHolder("Email address already in use!!"); // call, missing
     }
 
-    ErrorResponse errorResponse = ErrorResponse.builder()
-        .uuid(UUID.randomUUID())
-        .errors(new ArrayList<>())
-        .build();
+    ErrorResponse errorResponse = ErrorResponse.builder() // call, missing
+        .uuid(UUID.randomUUID()) // call, missing
+        .errors(new ArrayList<>()) // call, missing
+        .build(); // call, missing
 
     List<Role> validRoles = new ArrayList<>();
 
-    createUserRequest.getRoleNames().forEach(roleName -> {
+    createUserRequest.getRoleNames().forEach(roleName -> { // call, missing
 
       //if role exists add to list and persist, else add to error response persist valid roles and send
       // response containing invalid roles.
-      roleRepository.findByRoleName(roleName).<Runnable>map(role -> () -> validRoles.add(role))
+      roleRepository.findByRoleName(roleName).<Runnable>map(role -> () -> validRoles.add(role)) // call, missing
           .orElse(() -> {
-            Error error = Error.builder()
-                .code("400")
-                .message(roleName + " role doesn't exist")
-                .build();
-            errorResponse.getErrors().add(error);
+            Error error = Error.builder() // call, missing
+                .code("400") // call, missing
+                .message(roleName + " role doesn't exist") // call, missing
+                .build(); // call, missing
+            errorResponse.getErrors().add(error); // call, missing
           })
-          .run();
+          .run(); // call, missing
     });
 
-    User user = User.builder()
-        .userName(createUserRequest.getUserName())
-        .email(createUserRequest.getEmail())
-        .firstName(createUserRequest.getFirstName())
-        .lastName(createUserRequest.getLastName())
-        .password(encodedPassword)
-        .roles(new HashSet<>(validRoles))
-        .build();
+    User user = User.builder() // call, missing
+        .userName(createUserRequest.getUserName()) // call, missing // call, missing
+        .email(createUserRequest.getEmail()) // call, missing // call, missing
+        .firstName(createUserRequest.getFirstName()) // call, missing // call, missing
+        .lastName(createUserRequest.getLastName()) // call, missing // call, missing
+        .password(encodedPassword) // call, missing
+        .roles(new HashSet<>(validRoles)) // call, missing
+        .build(); // call, missing
 
-    User savedUser = userRepository.save(user);
+    User savedUser = userRepository.save(user); // call, missing
 
-    if (!errorResponse.getErrors().isEmpty()) {
-      throw new SuccessCodeWithErrorResponse(savedUser.getUserId(), errorResponse);
+    if (!errorResponse.getErrors().isEmpty()) { // call, missing
+      throw new SuccessCodeWithErrorResponse(savedUser.getUserId(), errorResponse); // call, missing // call, missing
     }
 
-    return savedUser.getUserId();
+    return savedUser.getUserId(); // call, missing
   }
 
   @Override
   public GetUserResponse getUserByUserName(String userName) {
 
     Optional<User> userNameOrEmailOptional = userRepository
-        .findByUserNameOrEmail(userName, userName);
+        .findByUserNameOrEmail(userName, userName); // call, missing
     User userByUserName = userNameOrEmailOptional.orElseThrow(() ->
-        new RunTimeExceptionPlaceHolder("UserName or Email doesn't exist!!")
+        new RunTimeExceptionPlaceHolder("UserName or Email doesn't exist!!") // call, missing
     );
 
-    return GetUserResponse.builder()
-        .userId(userByUserName.getUserId())
-        .userName(userByUserName.getUserName())
-        .firstName(userByUserName.getFirstName())
-        .lastName(userByUserName.getLastName())
-        .email(userByUserName.getEmail())
-        .roles(userByUserName.getRoles())
-        .build();
+    return GetUserResponse.builder() // call, missing
+        .userId(userByUserName.getUserId()) // call, missing // call, missing
+        .userName(userByUserName.getUserName()) // call, missing // call, missing
+        .firstName(userByUserName.getFirstName()) // call, missing // call, missing
+        .lastName(userByUserName.getLastName()) // call, missing // call, missing
+        .email(userByUserName.getEmail()) // call, missing // call, missing
+        .roles(userByUserName.getRoles()) // call, missing // call, missing
+        .build(); // call, missing
   }
 
   @Override
   public GetUserResponse getUserByUserId(String userId) {
-    Optional<User> userIdOptional = userRepository.findByUserId(userId);
+    Optional<User> userIdOptional = userRepository.findByUserId(userId); // call, missing
     User userById = userIdOptional.orElseThrow(() ->
-        new RunTimeExceptionPlaceHolder("UserName or Email doesn't exist!!")
+        new RunTimeExceptionPlaceHolder("UserName or Email doesn't exist!!") // call, missing
     );
 
-    return GetUserResponse.builder()
-        .userId(userById.getUserId())
-        .userName(userById.getUserName())
-        .firstName(userById.getFirstName())
-        .lastName(userById.getLastName())
-        .email(userById.getEmail())
-        .roles(userById.getRoles())
-        .build();
+    return GetUserResponse.builder() // call, missing
+        .userId(userById.getUserId()) // call, missing // call, missing
+        .userName(userById.getUserName()) // call, missing // call, missing
+        .firstName(userById.getFirstName()) // call, missing // call, missing
+        .lastName(userById.getLastName()) // call, missing // call, missing
+        .email(userById.getEmail()) // call, missing // call, missing
+        .roles(userById.getRoles()) // call, missing // call, missing
+        .build(); // call, missing
   }
 
   @Override
@@ -143,13 +143,13 @@ public class UserServiceImpl implements UserService {
 
     GetUserResponse userByUserName = getUserByUserName(userName);
 
-    return GetUserInfoResponse.builder()
-        .userId(userByUserName.getUserId())
-        .userName(userByUserName.getUserName())
-        .firstName(userByUserName.getFirstName())
-        .lastName(userByUserName.getLastName())
-        .email(userByUserName.getEmail())
-        .build();
+    return GetUserInfoResponse.builder() // call, missing
+        .userId(userByUserName.getUserId()) // call, missing // call, missing
+        .userName(userByUserName.getUserName()) // call, missing // call, missing
+        .firstName(userByUserName.getFirstName()) // call, missing // call, missing
+        .lastName(userByUserName.getLastName()) // call, missing // call, missing
+        .email(userByUserName.getEmail()) // call, missing // call, missing
+        .build(); // call, missing
 
   }
 
@@ -159,56 +159,56 @@ public class UserServiceImpl implements UserService {
     Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
     String userName = (String) authentication.getPrincipal();
 
-    Optional<User> userNameOrEmailOptional = userRepository.findByUserNameOrEmail(userName, userName);
+    Optional<User> userNameOrEmailOptional = userRepository.findByUserNameOrEmail(userName, userName); // call, missing
 
     User userByUserName = userNameOrEmailOptional.orElseThrow(() ->
-            new RunTimeExceptionPlaceHolder("UserName or Email doesn't exist!!")
+            new RunTimeExceptionPlaceHolder("UserName or Email doesn't exist!!") // call, missing
     );
 
-    if(updateUserRequest.getFirstName()!=null){
-      userByUserName.setFirstName(updateUserRequest.getFirstName());
+    if(updateUserRequest.getFirstName()!=null){ // call, missing
+      userByUserName.setFirstName(updateUserRequest.getFirstName()); // call, missing // call, missing
     }
-    if(updateUserRequest.getLastName()!=null){
-      userByUserName.setLastName(updateUserRequest.getLastName());
+    if(updateUserRequest.getLastName()!=null){ // call, missing
+      userByUserName.setLastName(updateUserRequest.getLastName()); // call, missing // call, missing
     }
-    if(updateUserRequest.getPassword()!=null){
-      String encodedPassword = passwordEncoder.encode(updateUserRequest.getPassword());
-      userByUserName.setPassword(encodedPassword);
+    if(updateUserRequest.getPassword()!=null){ // call, missing
+      String encodedPassword = passwordEncoder.encode(updateUserRequest.getPassword()); // call, missing // call, missing
+      userByUserName.setPassword(encodedPassword); // call, missing
     }
-    if(updateUserRequest.getEmail()!=null){
-      userByUserName.setEmail(updateUserRequest.getEmail());
+    if(updateUserRequest.getEmail()!=null){ // call, missing
+      userByUserName.setEmail(updateUserRequest.getEmail()); // call, missing // call, missing
     }
 
-    userRepository.save(userByUserName);
+    userRepository.save(userByUserName); // call, missing
   }
 
   @Override
   public void deleteUserById(String userId) {
     Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
     String userName = (String) authentication.getPrincipal();
-    GetUserResponse userByUserId = getUserByUserId(userId);
+    GetUserResponse userByUserId = getUserByUserId(userId); // call, missing
 
-    if(userName.equals(userByUserId.getUserName())){
-      throw new RunTimeExceptionPlaceHolder("You cannot delete your own account!");
+    if(userName.equals(userByUserId.getUserName())){ // call, missing
+      throw new RunTimeExceptionPlaceHolder("You cannot delete your own account!"); // call, missing
     }
 
-    userRepository.deleteByUserId(userId);
+    userRepository.deleteByUserId(userId); // call, missing
   }
 
   @Override
   public List<GetUserResponse> getAllUsers() {
 
-    Iterable<User> all = userRepository.findAll();
+    Iterable<User> all = userRepository.findAll(); // call, missing
     List<GetUserResponse> allUsers = new ArrayList<>();
     all.iterator().forEachRemaining(u->{
-      GetUserResponse userResponse = GetUserResponse.builder()
-              .userId(u.getUserId())
-              .userName(u.getUserName())
-              .firstName(u.getFirstName())
-              .lastName(u.getLastName())
-              .email(u.getEmail())
-              .roles(u.getRoles())
-              .build();
+      GetUserResponse userResponse = GetUserResponse.builder() // call, missing
+              .userId(u.getUserId()) // call, missing // call, missing
+              .userName(u.getUserName()) // call, missing // call, missing
+              .firstName(u.getFirstName()) // call, missing // call, missing
+              .lastName(u.getLastName()) // call, missing // call, missing
+              .email(u.getEmail()) // call, missing // call, missing
+              .roles(u.getRoles()) // call, missing // call, missing
+              .build(); // call, missing
       allUsers.add(userResponse);
     });
 
@@ -218,36 +218,36 @@ public class UserServiceImpl implements UserService {
   @Override
   public void updateUser(String userId, UpdateUserRequestFromAdmin updateUserRequestFromAdmin) {
 
-    Optional<User> existingUser = userRepository.findByUserId(userId);
+    Optional<User> existingUser = userRepository.findByUserId(userId); // call, missing
 
     User user = existingUser.orElseThrow(() ->
-            new RunTimeExceptionPlaceHolder("UserId doesn't exist!!")
+            new RunTimeExceptionPlaceHolder("UserId doesn't exist!!") // call, missing
     );
 
-    if(updateUserRequestFromAdmin.getFirstName()!=null){
-      user.setFirstName(updateUserRequestFromAdmin.getFirstName());
+    if(updateUserRequestFromAdmin.getFirstName()!=null){ // call, missing
+      user.setFirstName(updateUserRequestFromAdmin.getFirstName()); // call, missing // call, missing
     }
-    if(updateUserRequestFromAdmin.getLastName()!=null){
-      user.setLastName(updateUserRequestFromAdmin.getLastName());
+    if(updateUserRequestFromAdmin.getLastName()!=null){ // call, missing
+      user.setLastName(updateUserRequestFromAdmin.getLastName()); // call, missing // call, missing
     }
-    if(updateUserRequestFromAdmin.getEmail()!=null){
-      user.setEmail(updateUserRequestFromAdmin.getEmail());
-    }
-
-    if(user.getRoles().size()>0){
-      MapUserToRolesRequest mapUserToRolesRequest = new MapUserToRolesRequest();
-      List<String> existingRoles = user.getRoles().stream().map(Role::getRoleName).collect(Collectors.toList());
-      mapUserToRolesRequest.setRoleNames(existingRoles);
-      userRoleService.removeRolesFromUser(user.getUserName(), mapUserToRolesRequest);
+    if(updateUserRequestFromAdmin.getEmail()!=null){ // call, missing
+      user.setEmail(updateUserRequestFromAdmin.getEmail()); // call, missing // call, missing
     }
 
-    if (updateUserRequestFromAdmin.getRoles().size() > 0) {
-      MapUserToRolesRequest mapUserToRolesRequest = new MapUserToRolesRequest();
-      mapUserToRolesRequest.setRoleNames(updateUserRequestFromAdmin.getRoles());
-      userRoleService.mapUserToRoles(user.getUserName(), mapUserToRolesRequest);
+    if(user.getRoles().size()>0){ // call, missing
+      MapUserToRolesRequest mapUserToRolesRequest = new MapUserToRolesRequest(); // call, missing
+      List<String> existingRoles = user.getRoles().stream().map(Role::getRoleName).collect(Collectors.toList()); // call, missing // call, missing
+      mapUserToRolesRequest.setRoleNames(existingRoles); // call, missing
+      userRoleService.removeRolesFromUser(user.getUserName(), mapUserToRolesRequest); // call, missing // call, missing
     }
 
-    userRepository.save(user);
+    if (updateUserRequestFromAdmin.getRoles().size() > 0) { // call, missing
+      MapUserToRolesRequest mapUserToRolesRequest = new MapUserToRolesRequest(); // call, missing
+      mapUserToRolesRequest.setRoleNames(updateUserRequestFromAdmin.getRoles()); // call, missing // call, missing
+      userRoleService.mapUserToRoles(user.getUserName(), mapUserToRolesRequest); // call, missing // call, missing
+    }
+
+    userRepository.save(user); // call, missing
   }
 
 }

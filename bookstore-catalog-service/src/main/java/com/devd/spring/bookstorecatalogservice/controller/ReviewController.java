@@ -26,13 +26,13 @@ public class ReviewController {
     @PostMapping("/review")
     public ResponseEntity<?> createOrUpdateReview(@RequestBody @Valid CreateOrUpdateReviewRequest createOrUpdateReviewRequest) {
 
-        reviewService.createOrUpdateReview(createOrUpdateReviewRequest);
+        reviewService.createOrUpdateReview(createOrUpdateReviewRequest); // call
         return ResponseEntity.ok().build();
     }
 
     @GetMapping("/review")
     public ResponseEntity<?> getAllReviewsForProduct(@RequestParam("productId") String productId) {
-        List<Review> reviewsForProduct = reviewService.getReviewsForProduct(productId);
+        List<Review> reviewsForProduct = reviewService.getReviewsForProduct(productId); // call
         return ResponseEntity.ok(reviewsForProduct);
     }
 }

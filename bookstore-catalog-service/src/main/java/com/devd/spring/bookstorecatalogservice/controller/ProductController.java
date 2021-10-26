@@ -42,7 +42,7 @@ public class ProductController {
     @PreAuthorize("hasAuthority('ADMIN_USER')")
     public ResponseEntity<?> createProduct(@RequestBody @Valid CreateProductRequest createProductRequest){
 
-        String product = productService.createProduct(createProductRequest);
+        String product = productService.createProduct(createProductRequest); // call 
 
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest().path("/{productId}")
@@ -54,7 +54,7 @@ public class ProductController {
     @GetMapping("/product/{productId}")
     public ResponseEntity<ProductResponse> getProduct(@PathVariable("productId") String productId) {
 
-        ProductResponse product = productService.getProduct(productId);
+        ProductResponse product = productService.getProduct(productId); // call 
 
         return ResponseEntity.ok(product);
     }
@@ -63,7 +63,7 @@ public class ProductController {
     @PreAuthorize("hasAuthority('ADMIN_USER')")
     public ResponseEntity<?> deleteProductCategory(@PathVariable("productId") String productId) {
 
-        productService.deleteProduct(productId);
+        productService.deleteProduct(productId); // call
 
         return ResponseEntity.noContent().build();
     }
@@ -72,7 +72,7 @@ public class ProductController {
     @PreAuthorize("hasAuthority('ADMIN_USER')")
     public ResponseEntity<?> updateProduct(@RequestBody @Valid UpdateProductRequest updateProductRequest) {
 
-        productService.updateProduct(updateProductRequest);
+        productService.updateProduct(updateProductRequest); // call
 
         return ResponseEntity.noContent().build();
     }
@@ -84,34 +84,34 @@ public class ProductController {
                                             @RequestParam(value = "size", required = false) Integer size,
                                             PagedResourcesAssembler<ProductResponse> assembler) {
 
-        Page<ProductResponse> list = productService.getAllProducts(sort, page, size);
+        Page<ProductResponse> list = productService.getAllProducts(sort, page, size); // call, missing
     
         Link link = new Link(ServletUriComponentsBuilder.fromCurrentRequest().build()
                                                         .toUriString());
 
         PagedModel<EntityModel<ProductResponse>> resource = assembler.toModel(list, link);
     
-        ProductsPagedResponse productsPagedResponse = new ProductsPagedResponse();
-        productsPagedResponse.setPage(list);
+        ProductsPagedResponse productsPagedResponse = new ProductsPagedResponse(); // call, missing
+        productsPagedResponse.setPage(list); // call
 
         if (resource.getLink("first").isPresent()) {
-            productsPagedResponse.get_links().put("first", resource.getLink("first").get().getHref());
+            productsPagedResponse.get_links().put("first", resource.getLink("first").get().getHref()); // call, missing
         }
 
         if (resource.getLink("prev").isPresent()) {
-            productsPagedResponse.get_links().put("prev", resource.getLink("prev").get().getHref());
+            productsPagedResponse.get_links().put("prev", resource.getLink("prev").get().getHref()); // call, missing
         }
 
         if (resource.getLink("self").isPresent()) {
-            productsPagedResponse.get_links().put("self", resource.getLink("self").get().getHref());
+            productsPagedResponse.get_links().put("self", resource.getLink("self").get().getHref()); // call, missing
         }
 
         if (resource.getLink("next").isPresent()) {
-            productsPagedResponse.get_links().put("next", resource.getLink("next").get().getHref());
+            productsPagedResponse.get_links().put("next", resource.getLink("next").get().getHref()); // call, missing
         }
 
         if (resource.getLink("last").isPresent()) {
-            productsPagedResponse.get_links().put("last", resource.getLink("last").get().getHref());
+            productsPagedResponse.get_links().put("last", resource.getLink("last").get().getHref()); // call, missing
         }
     
         return ResponseEntity.ok(productsPagedResponse);

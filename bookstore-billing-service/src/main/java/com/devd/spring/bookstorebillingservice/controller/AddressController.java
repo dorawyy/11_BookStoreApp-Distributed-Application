@@ -29,31 +29,31 @@ public class AddressController {
     
     @PostMapping("/address")
     public ResponseEntity<Object> createAddress(@RequestBody CreateAddressRequest createAddressRequest) {
-        addressService.createAddress(createAddressRequest);
+        addressService.createAddress(createAddressRequest); // call 
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     @PutMapping("/address")
     public ResponseEntity<Object> updateAddress(@RequestBody UpdateAddressRequest updateAddressRequest) {
-        addressService.updateAddress(updateAddressRequest);
+        addressService.updateAddress(updateAddressRequest); // call 
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     @GetMapping("/address")
     public ResponseEntity<List<GetAddressResponse>> getAddress() {
-        List<GetAddressResponse> address = addressService.getAddress();
+        List<GetAddressResponse> address = addressService.getAddress(); // call 
         return ResponseEntity.ok(address);
     }
 
     @GetMapping("/address/{addressId}")
     public ResponseEntity<GetAddressResponse> getAddressById(@PathVariable("addressId") String addressId) {
-        GetAddressResponse address = addressService.getAddressById(addressId);
+        GetAddressResponse address = addressService.getAddressById(addressId); // call 
         return ResponseEntity.ok(address);
     }
 
     @DeleteMapping("/address/{addressId}")
     public ResponseEntity<?> deleteAddressById(@PathVariable("addressId") String addressId) {
-        addressService.deleteAddressById(addressId);
+        addressService.deleteAddressById(addressId); // call 
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
     
