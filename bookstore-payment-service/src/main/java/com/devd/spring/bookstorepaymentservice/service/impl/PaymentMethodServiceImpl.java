@@ -41,30 +41,30 @@ public class PaymentMethodServiceImpl implements PaymentMethodService {
     public void createPaymentMethod(CreatePaymentMethodRequest createPaymentMethodRequest) {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String userIdFromToken = getUserIdFromToken(authentication);
-        String userNameFromToken = getUserNameFromToken(authentication);
+        String userIdFromToken = getUserIdFromToken(authentication); // call, missing (due to class filtering)
+        String userNameFromToken = getUserNameFromToken(authentication); // call, missing
 
-        UserPaymentCustomer paymentCustomer = userPaymentCustomerRepository.findByUserId(userIdFromToken);
+        UserPaymentCustomer paymentCustomer = userPaymentCustomerRepository.findByUserId(userIdFromToken); // call, missing
 
         String customerId;
         if (paymentCustomer == null) {
             //Create Customer at stripe end;
-            customerId = createCustomerAtStripe();
+            customerId = createCustomerAtStripe(); // call
             //save
-            UserPaymentCustomer userPaymentCustomer = new UserPaymentCustomer();
-            userPaymentCustomer.setUserId(userIdFromToken);
-            userPaymentCustomer.setUserName(userNameFromToken);
-            userPaymentCustomer.setPaymentCustomerId(customerId);
-            userPaymentCustomerRepository.save(userPaymentCustomer);
+            UserPaymentCustomer userPaymentCustomer = new UserPaymentCustomer(); // call
+            userPaymentCustomer.setUserId(userIdFromToken); // call
+            userPaymentCustomer.setUserName(userNameFromToken); // call
+            userPaymentCustomer.setPaymentCustomerId(customerId); // call
+            userPaymentCustomerRepository.save(userPaymentCustomer); // call, missing
         } else {
-            customerId = paymentCustomer.getPaymentCustomerId();
+            customerId = paymentCustomer.getPaymentCustomerId(); // call
         }
 
         //create Payment Method
-        String paymentMethod = createPaymentMethodAtStripe(createPaymentMethodRequest);
+        String paymentMethod = createPaymentMethodAtStripe(createPaymentMethodRequest); // call
 
         //link customer and Payment Method
-        linkCustomerAndPaymentMethod(paymentMethod, customerId);
+        linkCustomerAndPaymentMethod(paymentMethod, customerId); // call
 
     }
 
@@ -72,24 +72,24 @@ public class PaymentMethodServiceImpl implements PaymentMethodService {
     public List<GetPaymentMethodResponse> getAllMyPaymentMethods() {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String userIdFromToken = getUserIdFromToken(authentication);
+        String userIdFromToken = getUserIdFromToken(authentication); // call
 
         List<GetPaymentMethodResponse> list = new ArrayList<>();
 
-        UserPaymentCustomer paymentCustomer = userPaymentCustomerRepository.findByUserId(userIdFromToken);
+        UserPaymentCustomer paymentCustomer = userPaymentCustomerRepository.findByUserId(userIdFromToken); // call, missing
 
         if (paymentCustomer != null) {
-            PaymentMethodCollection paymentMethods = getAllPaymentMethodsForCustomerFromStripe(paymentCustomer.getPaymentCustomerId());
+            PaymentMethodCollection paymentMethods = getAllPaymentMethodsForCustomerFromStripe(paymentCustomer.getPaymentCustomerId()); // call // call
 
-            paymentMethods.getData().forEach(pm->{
-                GetPaymentMethodResponse getPaymentMethodResponse = GetPaymentMethodResponse.builder()
-                        .paymentMethodId(pm.getId())
-                        .cardCountry(pm.getCard().getCountry())
-                        .cardExpirationMonth(pm.getCard().getExpMonth())
-                        .cardExpirationYear(pm.getCard().getExpYear())
-                        .cardLast4Digits(pm.getCard().getLast4())
-                        .cardType(pm.getCard().getBrand())
-                        .build();
+            paymentMethods.getData().forEach(pm->{ // call
+                GetPaymentMethodResponse getPaymentMethodResponse = GetPaymentMethodResponse.builder() // call
+                        .paymentMethodId(pm.getId()) // call // call
+                        .cardCountry(pm.getCard().getCountry()) // call // call
+                        .cardExpirationMonth(pm.getCard().getExpMonth()) // call // call
+                        .cardExpirationYear(pm.getCard().getExpYear()) // call // call
+                        .cardLast4Digits(pm.getCard().getLast4()) // call // call
+                        .cardType(pm.getCard().getBrand()) // call // call
+                        .build(); // call
 
                 list.add(getPaymentMethodResponse);
             });
@@ -102,27 +102,27 @@ public class PaymentMethodServiceImpl implements PaymentMethodService {
     public GetPaymentMethodResponse getMyPaymentMethodById(String paymentMethodId) {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String userIdFromToken = getUserIdFromToken(authentication);
+        String userIdFromToken = getUserIdFromToken(authentication); // call, missing
 
-        UserPaymentCustomer paymentCustomer = userPaymentCustomerRepository.findByUserId(userIdFromToken);
+        UserPaymentCustomer paymentCustomer = userPaymentCustomerRepository.findByUserId(userIdFromToken); // call, missing
 
         try {
-            PaymentMethod paymentMethod = PaymentMethod.retrieve(paymentMethodId);
+            PaymentMethod paymentMethod = PaymentMethod.retrieve(paymentMethodId); // call
 
-            if(!paymentCustomer.getPaymentCustomerId().equals(paymentMethod.getCustomer())){
-                throw new RunTimeExceptionPlaceHolder("PaymentMethod doesn't belong to this User");
+            if(!paymentCustomer.getPaymentCustomerId().equals(paymentMethod.getCustomer())){ // call // call
+                throw new RunTimeExceptionPlaceHolder("PaymentMethod doesn't belong to this User"); // call 
             }
-            GetPaymentMethodResponse getPaymentMethodResponse = GetPaymentMethodResponse.builder()
-                    .paymentMethodId(paymentMethod.getId())
-                    .cardCountry(paymentMethod.getCard().getCountry())
-                    .cardExpirationMonth(paymentMethod.getCard().getExpMonth())
-                    .cardExpirationYear(paymentMethod.getCard().getExpYear())
-                    .cardLast4Digits(paymentMethod.getCard().getLast4())
-                    .cardType(paymentMethod.getCard().getBrand())
-                    .build();
+            GetPaymentMethodResponse getPaymentMethodResponse = GetPaymentMethodResponse.builder() // call
+                    .paymentMethodId(paymentMethod.getId()) // call // call
+                    .cardCountry(paymentMethod.getCard().getCountry()) // call // call
+                    .cardExpirationMonth(paymentMethod.getCard().getExpMonth()) // call // call
+                    .cardExpirationYear(paymentMethod.getCard().getExpYear()) // call // call
+                    .cardLast4Digits(paymentMethod.getCard().getLast4()) // call // call
+                    .cardType(paymentMethod.getCard().getBrand()) // call // call
+                    .build(); // call
             return getPaymentMethodResponse;
         } catch (StripeException e) {
-            throw new RunTimeExceptionPlaceHolder("Error while fetching payment method.");
+            throw new RunTimeExceptionPlaceHolder("Error while fetching payment method."); // call 
         }
     }
 
@@ -135,7 +135,7 @@ public class PaymentMethodServiceImpl implements PaymentMethodService {
         try {
             return PaymentMethod.list(params);
         } catch (StripeException e) {
-            throw new RunTimeExceptionPlaceHolder("Error while retrieving customer.");
+            throw new RunTimeExceptionPlaceHolder("Error while retrieving customer."); // call 
         }
 
     }
@@ -146,7 +146,7 @@ public class PaymentMethodServiceImpl implements PaymentMethodService {
         try {
             paymentMethod = PaymentMethod.retrieve(paymentMethodId);
         } catch (StripeException e) {
-            throw new RunTimeExceptionPlaceHolder("Error while retrieving payment method.");
+            throw new RunTimeExceptionPlaceHolder("Error while retrieving payment method."); // call 
         }
 
         Map<String, Object> params = new HashMap<>();
@@ -155,17 +155,17 @@ public class PaymentMethodServiceImpl implements PaymentMethodService {
         try {
             PaymentMethod updatedPaymentMethod = paymentMethod.attach(params);
         } catch (StripeException e) {
-            throw new RunTimeExceptionPlaceHolder("Error while attaching payment method.");
+            throw new RunTimeExceptionPlaceHolder("Error while attaching payment method."); // call 
         }
 
     }
 
     private String createPaymentMethodAtStripe(CreatePaymentMethodRequest createPaymentMethodRequest) {
         Map<String, Object> card = new HashMap<>();
-        card.put("number", createPaymentMethodRequest.getCard().getCardNumber());
-        card.put("exp_month", createPaymentMethodRequest.getCard().getExpirationMonth());
-        card.put("exp_year", createPaymentMethodRequest.getCard().getExpirationYear());
-        card.put("cvc", createPaymentMethodRequest.getCard().getCvv());
+        card.put("number", createPaymentMethodRequest.getCard().getCardNumber()); // call
+        card.put("exp_month", createPaymentMethodRequest.getCard().getExpirationMonth()); // call
+        card.put("exp_year", createPaymentMethodRequest.getCard().getExpirationYear()); // call
+        card.put("cvc", createPaymentMethodRequest.getCard().getCvv()); // call
         Map<String, Object> params = new HashMap<>();
         params.put("type", "card");
         params.put("card", card);
@@ -174,13 +174,13 @@ public class PaymentMethodServiceImpl implements PaymentMethodService {
             PaymentMethod paymentMethod = PaymentMethod.create(params);
             return paymentMethod.getId();
         } catch (StripeException e) {
-            throw new RunTimeExceptionPlaceHolder("Error while setting up payment method.");
+            throw new RunTimeExceptionPlaceHolder("Error while setting up payment method."); // call 
         }
     }
 
     private String createCustomerAtStripe() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String userIdFromToken = getUserIdFromToken(authentication);
+        String userIdFromToken = getUserIdFromToken(authentication); // call, missing
         Map<String, Object> params = new HashMap<>();
         params.put(
                 "description",
@@ -190,7 +190,7 @@ public class PaymentMethodServiceImpl implements PaymentMethodService {
         try {
             return Customer.create(params).getId();
         } catch (StripeException e) {
-            throw new RunTimeExceptionPlaceHolder("Error while setting up payment customer.");
+            throw new RunTimeExceptionPlaceHolder("Error while setting up payment customer."); // call
         }
 
     }

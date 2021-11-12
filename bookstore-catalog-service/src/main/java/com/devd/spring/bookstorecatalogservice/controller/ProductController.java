@@ -84,34 +84,34 @@ public class ProductController {
                                             @RequestParam(value = "size", required = false) Integer size,
                                             PagedResourcesAssembler<ProductResponse> assembler) {
 
-        Page<ProductResponse> list = productService.getAllProducts(sort, page, size); // call, missing
+        Page<ProductResponse> list = productService.getAllProducts(sort, page, size); // call
     
         Link link = new Link(ServletUriComponentsBuilder.fromCurrentRequest().build()
                                                         .toUriString());
 
         PagedModel<EntityModel<ProductResponse>> resource = assembler.toModel(list, link);
     
-        ProductsPagedResponse productsPagedResponse = new ProductsPagedResponse(); // call, missing
+        ProductsPagedResponse productsPagedResponse = new ProductsPagedResponse(); // call
         productsPagedResponse.setPage(list); // call
 
         if (resource.getLink("first").isPresent()) {
-            productsPagedResponse.get_links().put("first", resource.getLink("first").get().getHref()); // call, missing
+            productsPagedResponse.get_links().put("first", resource.getLink("first").get().getHref()); // call
         }
 
         if (resource.getLink("prev").isPresent()) {
-            productsPagedResponse.get_links().put("prev", resource.getLink("prev").get().getHref()); // call, missing
+            productsPagedResponse.get_links().put("prev", resource.getLink("prev").get().getHref()); // call
         }
 
         if (resource.getLink("self").isPresent()) {
-            productsPagedResponse.get_links().put("self", resource.getLink("self").get().getHref()); // call, missing
+            productsPagedResponse.get_links().put("self", resource.getLink("self").get().getHref()); // call
         }
 
         if (resource.getLink("next").isPresent()) {
-            productsPagedResponse.get_links().put("next", resource.getLink("next").get().getHref()); // call, missing
+            productsPagedResponse.get_links().put("next", resource.getLink("next").get().getHref()); // call
         }
 
         if (resource.getLink("last").isPresent()) {
-            productsPagedResponse.get_links().put("last", resource.getLink("last").get().getHref()); // call, missing
+            productsPagedResponse.get_links().put("last", resource.getLink("last").get().getHref()); // call
         }
     
         return ResponseEntity.ok(productsPagedResponse);

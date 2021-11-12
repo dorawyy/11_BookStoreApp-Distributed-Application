@@ -26,7 +26,7 @@ public class AppUserDetailsServiceImpl implements AppUserDetailsService {
   public UserDetails loadUserByUsername(String userNameOrEmail) throws UsernameNotFoundException {
 
     Optional<User> userOptional = userRepository
-        .findByUserNameOrEmail(userNameOrEmail, userNameOrEmail); // call, missing
+        .findByUserNameOrEmail(userNameOrEmail, userNameOrEmail); // call, missing (@transactional interface)
 
     User user = userOptional.orElseThrow(() ->
         new UsernameNotFoundException(String.format("The username or email Id %s doesn't exist",
@@ -35,11 +35,11 @@ public class AppUserDetailsServiceImpl implements AppUserDetailsService {
 
     List<GrantedAuthority> authorities = new ArrayList<>();
     user.getRoles().forEach(role -> { // call
-      authorities.add(new SimpleGrantedAuthority(role.getRoleName())); // call, missing (getRoleName)
+      authorities.add(new SimpleGrantedAuthority(role.getRoleName())); // call
     });
 
     UserDetails userDetails = new org.springframework.security.core.userdetails.
-        User(user.getUserName(), user.getPassword(), authorities); // call, missing // call,missing 
+        User(user.getUserName(), user.getPassword(), authorities); // call (constructor) // call // call
 
     return userDetails;
   }

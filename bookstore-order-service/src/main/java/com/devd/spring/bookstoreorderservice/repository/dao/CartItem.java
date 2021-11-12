@@ -58,7 +58,7 @@ public class CartItem extends DateAudit {
     
     @PreRemove
     public void dismissParent() {
-        this.cart.dismissChild(this); //SYNCHRONIZING THE OTHER SIDE OF RELATIONSHIP
+        this.cart.dismissChild(this); //SYNCHRONIZING THE OTHER SIDE OF RELATIONSHIP // call
         this.cart = null;
     }
     

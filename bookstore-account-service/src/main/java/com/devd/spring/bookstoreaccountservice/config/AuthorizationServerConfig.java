@@ -108,10 +108,10 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
       public OAuth2AccessToken enhance(OAuth2AccessToken accessToken, OAuth2Authentication authentication) {
 
         User principal = (User) authentication.getUserAuthentication().getPrincipal();
-          Optional<com.devd.spring.bookstoreaccountservice.repository.dao.Usjava.er> userDetail
+          Optional<com.devd.spring.bookstoreaccountservice.repository.dao.User> userDetail
                   = userRepository.findByUserName(principal.getUsername()); // call, missing 
           final Map<String, Object> additionalInfo = new HashMap<>();
-        userDetail.ifPresent(user -> additionalInfo.put("user_id", user.getUserId())); // call, missing, com.devd.spring.bookstoreaccountservice.repository.dao.User: java.lang.String getUserId()
+        userDetail.ifPresent(user -> additionalInfo.put("user_id", user.getUserId())); // call
           ((DefaultOAuth2AccessToken) accessToken)
                   .setAdditionalInformation(additionalInfo);
 

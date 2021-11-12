@@ -50,14 +50,14 @@ public class UserServiceImpl implements UserService {
   @Override
   public String createUser(CreateUserRequest createUserRequest) {
 
-    String encodedPassword = passwordEncoder.encode(createUserRequest.getPassword()); // call, missing
+    String encodedPassword = passwordEncoder.encode(createUserRequest.getPassword()); // call
 
-    if (userRepository.existsByUserName(createUserRequest.getUserName())) { // call, missing // call, missing
-      throw new RunTimeExceptionPlaceHolder("Username is already taken!!"); // call, missing
+    if (userRepository.existsByUserName(createUserRequest.getUserName())) { // call, missing // call
+      throw new RunTimeExceptionPlaceHolder("Username is already taken!!"); // call
     }
 
-    if (userRepository.existsByEmail(createUserRequest.getEmail())) { // call, missing // call, missing
-      throw new RunTimeExceptionPlaceHolder("Email address already in use!!"); // call, missing
+    if (userRepository.existsByEmail(createUserRequest.getEmail())) { // call, missing // call
+      throw new RunTimeExceptionPlaceHolder("Email address already in use!!"); // call
     }
 
     ErrorResponse errorResponse = ErrorResponse.builder() // call, missing
@@ -67,13 +67,13 @@ public class UserServiceImpl implements UserService {
 
     List<Role> validRoles = new ArrayList<>();
 
-    createUserRequest.getRoleNames().forEach(roleName -> { // call, missing
+    createUserRequest.getRoleNames().forEach(roleName -> { // call
 
       //if role exists add to list and persist, else add to error response persist valid roles and send
       // response containing invalid roles.
       roleRepository.findByRoleName(roleName).<Runnable>map(role -> () -> validRoles.add(role)) // call, missing
           .orElse(() -> {
-            Error error = Error.builder() // call, missing
+            Error error = Error.builder() // call
                 .code("400") // call, missing
                 .message(roleName + " role doesn't exist") // call, missing
                 .build(); // call, missing
@@ -82,22 +82,22 @@ public class UserServiceImpl implements UserService {
           .run(); // call, missing
     });
 
-    User user = User.builder() // call, missing
-        .userName(createUserRequest.getUserName()) // call, missing // call, missing
-        .email(createUserRequest.getEmail()) // call, missing // call, missing
-        .firstName(createUserRequest.getFirstName()) // call, missing // call, missing
-        .lastName(createUserRequest.getLastName()) // call, missing // call, missing
-        .password(encodedPassword) // call, missing
-        .roles(new HashSet<>(validRoles)) // call, missing
-        .build(); // call, missing
+    User user = User.builder() // call
+        .userName(createUserRequest.getUserName()) // call // call
+        .email(createUserRequest.getEmail()) // call // call
+        .firstName(createUserRequest.getFirstName()) // call // call
+        .lastName(createUserRequest.getLastName()) // call // call
+        .password(encodedPassword) // call
+        .roles(new HashSet<>(validRoles)) // call
+        .build(); // call
 
     User savedUser = userRepository.save(user); // call, missing
 
     if (!errorResponse.getErrors().isEmpty()) { // call, missing
-      throw new SuccessCodeWithErrorResponse(savedUser.getUserId(), errorResponse); // call, missing // call, missing
+      throw new SuccessCodeWithErrorResponse(savedUser.getUserId(), errorResponse); // call // call
     }
 
-    return savedUser.getUserId(); // call, missing
+    return savedUser.getUserId(); // call
   }
 
   @Override
@@ -106,34 +106,34 @@ public class UserServiceImpl implements UserService {
     Optional<User> userNameOrEmailOptional = userRepository
         .findByUserNameOrEmail(userName, userName); // call, missing
     User userByUserName = userNameOrEmailOptional.orElseThrow(() ->
-        new RunTimeExceptionPlaceHolder("UserName or Email doesn't exist!!") // call, missing
+        new RunTimeExceptionPlaceHolder("UserName or Email doesn't exist!!") // call
     );
 
-    return GetUserResponse.builder() // call, missing
-        .userId(userByUserName.getUserId()) // call, missing // call, missing
-        .userName(userByUserName.getUserName()) // call, missing // call, missing
-        .firstName(userByUserName.getFirstName()) // call, missing // call, missing
-        .lastName(userByUserName.getLastName()) // call, missing // call, missing
-        .email(userByUserName.getEmail()) // call, missing // call, missing
-        .roles(userByUserName.getRoles()) // call, missing // call, missing
-        .build(); // call, missing
+    return GetUserResponse.builder() // call
+        .userId(userByUserName.getUserId()) // call // call
+        .userName(userByUserName.getUserName()) // call // call
+        .firstName(userByUserName.getFirstName()) // call // call
+        .lastName(userByUserName.getLastName()) // call // call
+        .email(userByUserName.getEmail()) // call // call
+        .roles(userByUserName.getRoles()) // call // call
+        .build(); // call
   }
 
   @Override
   public GetUserResponse getUserByUserId(String userId) {
     Optional<User> userIdOptional = userRepository.findByUserId(userId); // call, missing
     User userById = userIdOptional.orElseThrow(() ->
-        new RunTimeExceptionPlaceHolder("UserName or Email doesn't exist!!") // call, missing
+        new RunTimeExceptionPlaceHolder("UserName or Email doesn't exist!!") // call
     );
 
-    return GetUserResponse.builder() // call, missing
-        .userId(userById.getUserId()) // call, missing // call, missing
-        .userName(userById.getUserName()) // call, missing // call, missing
-        .firstName(userById.getFirstName()) // call, missing // call, missing
-        .lastName(userById.getLastName()) // call, missing // call, missing
-        .email(userById.getEmail()) // call, missing // call, missing
-        .roles(userById.getRoles()) // call, missing // call, missing
-        .build(); // call, missing
+    return GetUserResponse.builder() // call
+        .userId(userById.getUserId()) // call // call
+        .userName(userById.getUserName()) // call // call
+        .firstName(userById.getFirstName()) // call // call
+        .lastName(userById.getLastName()) // call // call
+        .email(userById.getEmail()) // call // call
+        .roles(userById.getRoles()) // call // call
+        .build(); // call
   }
 
   @Override
@@ -143,13 +143,13 @@ public class UserServiceImpl implements UserService {
 
     GetUserResponse userByUserName = getUserByUserName(userName);
 
-    return GetUserInfoResponse.builder() // call, missing
-        .userId(userByUserName.getUserId()) // call, missing // call, missing
-        .userName(userByUserName.getUserName()) // call, missing // call, missing
-        .firstName(userByUserName.getFirstName()) // call, missing // call, missing
-        .lastName(userByUserName.getLastName()) // call, missing // call, missing
-        .email(userByUserName.getEmail()) // call, missing // call, missing
-        .build(); // call, missing
+    return GetUserInfoResponse.builder() // call
+        .userId(userByUserName.getUserId()) // call // call
+        .userName(userByUserName.getUserName()) // call // call
+        .firstName(userByUserName.getFirstName()) // call // call
+        .lastName(userByUserName.getLastName()) // call // call
+        .email(userByUserName.getEmail()) // call // call
+        .build(); // call
 
   }
 
@@ -162,21 +162,21 @@ public class UserServiceImpl implements UserService {
     Optional<User> userNameOrEmailOptional = userRepository.findByUserNameOrEmail(userName, userName); // call, missing
 
     User userByUserName = userNameOrEmailOptional.orElseThrow(() ->
-            new RunTimeExceptionPlaceHolder("UserName or Email doesn't exist!!") // call, missing
+            new RunTimeExceptionPlaceHolder("UserName or Email doesn't exist!!") // call
     );
 
-    if(updateUserRequest.getFirstName()!=null){ // call, missing
-      userByUserName.setFirstName(updateUserRequest.getFirstName()); // call, missing // call, missing
+    if(updateUserRequest.getFirstName()!=null){ // call
+      userByUserName.setFirstName(updateUserRequest.getFirstName()); // call // call
     }
-    if(updateUserRequest.getLastName()!=null){ // call, missing
-      userByUserName.setLastName(updateUserRequest.getLastName()); // call, missing // call, missing
+    if(updateUserRequest.getLastName()!=null){ // call
+      userByUserName.setLastName(updateUserRequest.getLastName()); // call // call
     }
-    if(updateUserRequest.getPassword()!=null){ // call, missing
-      String encodedPassword = passwordEncoder.encode(updateUserRequest.getPassword()); // call, missing // call, missing
-      userByUserName.setPassword(encodedPassword); // call, missing
+    if(updateUserRequest.getPassword()!=null){ // call
+      String encodedPassword = passwordEncoder.encode(updateUserRequest.getPassword()); // call // call
+      userByUserName.setPassword(encodedPassword); // call
     }
-    if(updateUserRequest.getEmail()!=null){ // call, missing
-      userByUserName.setEmail(updateUserRequest.getEmail()); // call, missing // call, missing
+    if(updateUserRequest.getEmail()!=null){ // call
+      userByUserName.setEmail(updateUserRequest.getEmail()); // call // call
     }
 
     userRepository.save(userByUserName); // call, missing
@@ -186,10 +186,10 @@ public class UserServiceImpl implements UserService {
   public void deleteUserById(String userId) {
     Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
     String userName = (String) authentication.getPrincipal();
-    GetUserResponse userByUserId = getUserByUserId(userId); // call, missing
+    GetUserResponse userByUserId = getUserByUserId(userId); // call
 
-    if(userName.equals(userByUserId.getUserName())){ // call, missing
-      throw new RunTimeExceptionPlaceHolder("You cannot delete your own account!"); // call, missing
+    if(userName.equals(userByUserId.getUserName())){ // call
+      throw new RunTimeExceptionPlaceHolder("You cannot delete your own account!"); // call
     }
 
     userRepository.deleteByUserId(userId); // call, missing
@@ -201,14 +201,14 @@ public class UserServiceImpl implements UserService {
     Iterable<User> all = userRepository.findAll(); // call, missing
     List<GetUserResponse> allUsers = new ArrayList<>();
     all.iterator().forEachRemaining(u->{
-      GetUserResponse userResponse = GetUserResponse.builder() // call, missing
-              .userId(u.getUserId()) // call, missing // call, missing
-              .userName(u.getUserName()) // call, missing // call, missing
-              .firstName(u.getFirstName()) // call, missing // call, missing
-              .lastName(u.getLastName()) // call, missing // call, missing
-              .email(u.getEmail()) // call, missing // call, missing
-              .roles(u.getRoles()) // call, missing // call, missing
-              .build(); // call, missing
+      GetUserResponse userResponse = GetUserResponse.builder() // call
+              .userId(u.getUserId()) // call // call
+              .userName(u.getUserName()) // call // call
+              .firstName(u.getFirstName()) // call // call
+              .lastName(u.getLastName()) // call // call
+              .email(u.getEmail()) // call // call
+              .roles(u.getRoles()) // call // call
+              .build(); // call
       allUsers.add(userResponse);
     });
 
@@ -221,30 +221,30 @@ public class UserServiceImpl implements UserService {
     Optional<User> existingUser = userRepository.findByUserId(userId); // call, missing
 
     User user = existingUser.orElseThrow(() ->
-            new RunTimeExceptionPlaceHolder("UserId doesn't exist!!") // call, missing
+            new RunTimeExceptionPlaceHolder("UserId doesn't exist!!") // call
     );
 
-    if(updateUserRequestFromAdmin.getFirstName()!=null){ // call, missing
-      user.setFirstName(updateUserRequestFromAdmin.getFirstName()); // call, missing // call, missing
+    if(updateUserRequestFromAdmin.getFirstName()!=null){ // call
+      user.setFirstName(updateUserRequestFromAdmin.getFirstName()); // call // call
     }
-    if(updateUserRequestFromAdmin.getLastName()!=null){ // call, missing
-      user.setLastName(updateUserRequestFromAdmin.getLastName()); // call, missing // call, missing
+    if(updateUserRequestFromAdmin.getLastName()!=null){ // call
+      user.setLastName(updateUserRequestFromAdmin.getLastName()); // call // call
     }
-    if(updateUserRequestFromAdmin.getEmail()!=null){ // call, missing
-      user.setEmail(updateUserRequestFromAdmin.getEmail()); // call, missing // call, missing
+    if(updateUserRequestFromAdmin.getEmail()!=null){ // call
+      user.setEmail(updateUserRequestFromAdmin.getEmail()); // call // call
     }
 
     if(user.getRoles().size()>0){ // call, missing
       MapUserToRolesRequest mapUserToRolesRequest = new MapUserToRolesRequest(); // call, missing
-      List<String> existingRoles = user.getRoles().stream().map(Role::getRoleName).collect(Collectors.toList()); // call, missing // call, missing
-      mapUserToRolesRequest.setRoleNames(existingRoles); // call, missing
-      userRoleService.removeRolesFromUser(user.getUserName(), mapUserToRolesRequest); // call, missing // call, missing
+      List<String> existingRoles = user.getRoles().stream().map(Role::getRoleName).collect(Collectors.toList()); // call // call
+      mapUserToRolesRequest.setRoleNames(existingRoles); // call
+      userRoleService.removeRolesFromUser(user.getUserName(), mapUserToRolesRequest); // call // call
     }
 
-    if (updateUserRequestFromAdmin.getRoles().size() > 0) { // call, missing
-      MapUserToRolesRequest mapUserToRolesRequest = new MapUserToRolesRequest(); // call, missing
-      mapUserToRolesRequest.setRoleNames(updateUserRequestFromAdmin.getRoles()); // call, missing // call, missing
-      userRoleService.mapUserToRoles(user.getUserName(), mapUserToRolesRequest); // call, missing // call, missing
+    if (updateUserRequestFromAdmin.getRoles().size() > 0) { // call
+      MapUserToRolesRequest mapUserToRolesRequest = new MapUserToRolesRequest(); // call
+      mapUserToRolesRequest.setRoleNames(updateUserRequestFromAdmin.getRoles()); // call // call
+      userRoleService.mapUserToRoles(user.getUserName(), mapUserToRolesRequest); // call // call
     }
 
     userRepository.save(user); // call, missing

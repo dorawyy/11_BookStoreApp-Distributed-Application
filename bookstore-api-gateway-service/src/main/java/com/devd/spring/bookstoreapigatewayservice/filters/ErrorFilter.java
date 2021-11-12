@@ -48,7 +48,7 @@ public class ErrorFilter extends ZuulFilter {
         if (throwable instanceof ZuulException) {
             final ZuulException zuulException = (ZuulException) throwable;
             LOG.error("Zuul failure detected: " + zuulException.getMessage());
-            resolver.resolveException(context.getRequest(), context.getResponse(), null, new RunTimeExceptionPlaceHolder(zuulException.getCause().getMessage(), context.getResponseStatusCode()));
+            resolver.resolveException(context.getRequest(), context.getResponse(), null, new RunTimeExceptionPlaceHolder(zuulException.getCause().getMessage(), context.getResponseStatusCode())); // call (constructor)
         }
         return null;
     }

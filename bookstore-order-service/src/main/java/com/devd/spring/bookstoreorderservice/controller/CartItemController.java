@@ -27,19 +27,19 @@ public class CartItemController {
     @PostMapping("/cart/cartItem")
     @ResponseStatus(value = HttpStatus.OK)
     public void addCartItem(@RequestBody CartItemRequest cartItemRequest) {
-        cartItemService.addCartItem(cartItemRequest);
+        cartItemService.addCartItem(cartItemRequest); // call
     }
     
     @DeleteMapping("/cart/cartItem/{cartItemId}")
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
     public void removeCartItem(@PathVariable(value = "cartItemId") String cartItemId) {
-        cartItemService.removeCartItem(cartItemId);
+        cartItemService.removeCartItem(cartItemId); // call
     }
     
     @DeleteMapping("/cart/cartItem")
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
     public void removeAllCartItems(@RequestParam(value = "cartId") String cartId) {
-        cartItemService.removeAllCartItems(cartId);
+        cartItemService.removeAllCartItems(cartId); // call
     }
     
 }

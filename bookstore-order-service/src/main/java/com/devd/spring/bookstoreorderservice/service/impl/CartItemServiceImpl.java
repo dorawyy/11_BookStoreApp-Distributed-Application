@@ -42,69 +42,69 @@ public class CartItemServiceImpl implements CartItemService {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String userName = (String) authentication.getPrincipal();
-        Cart cartByUserName = cartService.getCartByUserName(userName);
+        Cart cartByUserName = cartService.getCartByUserName(userName); // call
 
         synchronized (CartServiceImpl.class) {
             if (cartByUserName == null) {
                 //create cart for user if not exists.
-                cartService.createCart();
-                cartByUserName = cartService.getCartByUserName(userName);
+                cartService.createCart(); // call
+                cartByUserName = cartService.getCartByUserName(userName); // call
             }
         }
     
-        GetProductResponse getProductResponse = catalogFeignClient.getProduct(cartItemRequest.getProductId());
+        GetProductResponse getProductResponse = catalogFeignClient.getProduct(cartItemRequest.getProductId()); // call (s2s call) // call
 
-        if (cartItemRequest.getQuantity() > getProductResponse.getAvailableItemCount()) {
+        if (cartItemRequest.getQuantity() > getProductResponse.getAvailableItemCount()) { // call // call
             throw new RuntimeException("Quantity is greater than available item count!");
         }
 
         //If the product already exists in the cart, update its quantity and itemPrice.
 
-        if (cartByUserName.getCartItems() != null) {
-            for (CartItem ci : cartByUserName.getCartItems()) {
+        if (cartByUserName.getCartItems() != null) { // call 
+            for (CartItem ci : cartByUserName.getCartItems()) { // call
     
-                if (getProductResponse.getProductId().equals(ci.getProductId())) {
-                    ci.setQuantity(cartItemRequest.getQuantity());
-                    ci.setItemPrice(getProductResponse.getPrice());
-                    ci.setExtendedPrice(ci.getQuantity() * getProductResponse.getPrice());
-                    cartItemRepository.save(ci);
+                if (getProductResponse.getProductId().equals(ci.getProductId())) { // call, missing (due to the common code not belonging to this app dir) // call
+                    ci.setQuantity(cartItemRequest.getQuantity()); // call // call
+                    ci.setItemPrice(getProductResponse.getPrice()); // call // call
+                    ci.setExtendedPrice(ci.getQuantity() * getProductResponse.getPrice()); // call // call // call
+                    cartItemRepository.save(ci); // call, missing
                     return;
                 }
             }
         }
 
         //If cart doesn't have any cartItems, then create cartItems.
-        CartItem cartItem = CartItem.builder()
-                                    .cart(cartByUserName)
-                                    .itemPrice(getProductResponse.getPrice())
-                                    .extendedPrice(cartItemRequest.getQuantity() * getProductResponse.getPrice())
-                                    .quantity(cartItemRequest.getQuantity())
-                                    .productId(getProductResponse.getProductId())
-                                    .productName(getProductResponse.getProductName())
-                                    .build();
+        CartItem cartItem = CartItem.builder() // call
+                                    .cart(cartByUserName) // call
+                                    .itemPrice(getProductResponse.getPrice())  // call // call 
+                                    .extendedPrice(cartItemRequest.getQuantity() * getProductResponse.getPrice()) // call // call // call
+                                    .quantity(cartItemRequest.getQuantity()) // call // call 
+                                    .productId(getProductResponse.getProductId()) // call // call 
+                                    .productName(getProductResponse.getProductName()) // call // call 
+                                    .build(); // call
 
-        cartItemRepository.save(cartItem);
+        cartItemRepository.save(cartItem); // call, missing
     }
 
     @Override
     public void removeCartItem(String cartItemId) {
-        CartItem cartItem = this.getCartItem(cartItemId);
-        cartItemRepository.delete(cartItem);
+        CartItem cartItem = this.getCartItem(cartItemId); // call
+        cartItemRepository.delete(cartItem); // call, missing
     }
 
     @Override
     public CartItem getCartItem(String cartItemId) {
-        Optional<CartItem> byCartItemId = cartItemRepository.findByCartItemId(cartItemId);
+        Optional<CartItem> byCartItemId = cartItemRepository.findByCartItemId(cartItemId); // call, missing
         return byCartItemId.orElseThrow(()-> new RuntimeException("CartItem doesn't exist!!"));
     }
 
     @Override
     public void removeAllCartItems(String cartId) {
 
-        Cart cart = cartService.getCartByCartId(cartId);
-        List<String> cartItemIds = cart.getCartItems().stream().map(cartItem -> cartItem.getCartItemId()).collect(Collectors.toList());
+        Cart cart = cartService.getCartByCartId(cartId); // call
+        List<String> cartItemIds = cart.getCartItems().stream().map(cartItem -> cartItem.getCartItemId()).collect(Collectors.toList()); // call // call
         if (!cartItemIds.isEmpty()) {
-            cartItemIds.forEach(this::removeCartItem);
+            cartItemIds.forEach(this::removeCartItem); // call (lambda)
         }
     }
 }

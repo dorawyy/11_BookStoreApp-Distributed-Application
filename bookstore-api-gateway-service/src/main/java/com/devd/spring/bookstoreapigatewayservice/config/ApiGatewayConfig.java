@@ -21,17 +21,17 @@ public class ApiGatewayConfig {
 
     @Bean
     public PreFilter preFilter() {
-        return new PreFilter();
+        return new PreFilter(); // call
     }
 
     @Bean
     public PostFilter postFilter() {
-        return new PostFilter();
+        return new PostFilter(); // call
     }
 
     @Bean
     public RouteFilter routeFilter() {
-        return new RouteFilter();
+        return new RouteFilter(); // call
     }
 
 }

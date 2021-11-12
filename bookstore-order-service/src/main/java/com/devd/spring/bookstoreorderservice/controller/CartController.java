@@ -26,11 +26,11 @@ public class CartController {
     @PreAuthorize("hasAuthority('STANDARD_USER') or hasAuthority('ADMIN_USER')" )
     public ResponseEntity<CreateCartResponse> createCart() {
 
-        String cartId = cartService.createCart();
+        String cartId = cartService.createCart(); // call 
 
-        CreateCartResponse createCartResponse = CreateCartResponse.builder()
-                .cartId(cartId)
-                .build();
+        CreateCartResponse createCartResponse = CreateCartResponse.builder() // call
+                .cartId(cartId) // call
+                .build(); // call
 
         return ResponseEntity.status(HttpStatus.CREATED).body(createCartResponse);
     }
@@ -38,7 +38,7 @@ public class CartController {
     @GetMapping("/cart")
     public ResponseEntity<?> getCart(){
     
-        return ResponseEntity.ok(cartService.getCart());
+        return ResponseEntity.ok(cartService.getCart()); // call
         
     }
 

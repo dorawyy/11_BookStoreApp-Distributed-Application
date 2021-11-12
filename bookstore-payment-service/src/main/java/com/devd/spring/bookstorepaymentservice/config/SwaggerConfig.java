@@ -43,8 +43,8 @@ public class SwaggerConfig {
     @Bean
     public Docket api() {
         return new Docket(DocumentationType.SWAGGER_2)
-                       .securitySchemes(Arrays.asList(apiKey()))
-                       .securityContexts(Collections.singletonList(securityContext()))
+                       .securitySchemes(Arrays.asList(apiKey())) // call
+                       .securityContexts(Collections.singletonList(securityContext())) // call
                        .select()
                        .apis(RequestHandlerSelectors.basePackage("com.devd.spring"))
                        .paths(PathSelectors.any())
@@ -53,7 +53,7 @@ public class SwaggerConfig {
     }
     
     private SecurityContext securityContext() {
-        return SecurityContext.builder().securityReferences(defaultAuth()).forPaths(PathSelectors.regex("/.*")).build();
+        return SecurityContext.builder().securityReferences(defaultAuth()).forPaths(PathSelectors.regex("/.*")).build(); // call
     }
     
     private List<SecurityReference> defaultAuth() {

@@ -51,7 +51,7 @@ public class ProductCategoryServiceImpl implements ProductCategoryService {
     @Override
     public void deleteProductCategory(String productCategoryId) {
 
-        productCategoryRepository.deleteById(productCategoryId); // call
+        productCategoryRepository.deleteById(productCategoryId); // call, missing
 
     }
 
@@ -66,11 +66,11 @@ public class ProductCategoryServiceImpl implements ProductCategoryService {
                 .productCategoryId(updateProductCategoryRequest.getProductCategoryId()) // call // call
                 .productCategoryName(updateProductCategoryRequest.getProductCategoryName()) // call // call
                 .description(updateProductCategoryRequest.getDescription()) // call // call
-                .build();
+                .build(); // call
 
         productCategory.setCreatedAt(getProductCategory.getCreatedAt()); // call // call
 
-        productCategoryRepository.save(productCategory); // call
+        productCategoryRepository.save(productCategory); // call, missing
 
     }
     
@@ -107,6 +107,6 @@ public class ProductCategoryServiceImpl implements ProductCategoryService {
             
         }
         
-        return productCategoryRepository.findAll(pageable); // call
+        return productCategoryRepository.findAll(pageable); // call, missing
     }
 }

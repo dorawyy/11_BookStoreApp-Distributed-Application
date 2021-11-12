@@ -20,17 +20,17 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(RunTimeExceptionPlaceHolder.class)
     public ResponseEntity<ErrorResponse> handleCustomException(RunTimeExceptionPlaceHolder ex) {
 
-        ErrorResponse errorResponse = populateErrorResponse(ex.getHttpStatus()+"", ex.getMessage()); // call, missing
+        ErrorResponse errorResponse = populateErrorResponse(ex.getHttpStatus()+"", ex.getMessage()); // call // call
         log.error("Something went wrong, Exception : " + ex.getMessage());
-        ex.printStackTrace();
-        return new ResponseEntity<>(errorResponse, HttpStatus.valueOf(ex.getHttpStatus()));
+        ex.printStackTrace(); 
+        return new ResponseEntity<>(errorResponse, HttpStatus.valueOf(ex.getHttpStatus())); // call
 
     }
 
     @ExceptionHandler(InvalidFormatException.class)
     public ResponseEntity<ErrorResponse> handleCustomException(InvalidFormatException ex) {
 
-        ErrorResponse errorResponse = populateErrorResponse("400", ex.getMessage()); // call, missing
+        ErrorResponse errorResponse = populateErrorResponse("400", ex.getMessage()); // call
         log.error("Something went wrong, Exception : " + ex.getMessage());
         ex.printStackTrace();
         return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
@@ -40,7 +40,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorResponse> handleCustomException(Exception ex) {
 
-        ErrorResponse errorResponse = populateErrorResponse("500",  // call, missing
+        ErrorResponse errorResponse = populateErrorResponse("500",  // call
                 ex.getMessage());
         log.error("Something went wrong, Exception : " + ex.getMessage());
         ex.printStackTrace();
@@ -49,14 +49,14 @@ public class GlobalExceptionHandler {
     }
 
     public ErrorResponse populateErrorResponse(String code, String message) {
-        ErrorResponse errorResponse = new ErrorResponse(); // call, missing
-        errorResponse.setUuid(UUID.randomUUID()); // call, missing
+        ErrorResponse errorResponse = new ErrorResponse(); // call
+        errorResponse.setUuid(UUID.randomUUID()); // call
 
-        Error error = new Error(); // call, missing
-        error.setCode(code); // call, missing
-        error.setMessage(message); // call, missing
+        Error error = new Error(); // call
+        error.setCode(code); // call
+        error.setMessage(message); // call
 
-        errorResponse.setErrors(Collections.singletonList(error)); // call, missing
+        errorResponse.setErrors(Collections.singletonList(error)); // call
 
         return errorResponse;
     }

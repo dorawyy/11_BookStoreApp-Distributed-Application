@@ -38,17 +38,17 @@ public class UserRoleServiceImpl implements UserRoleService {
         .findByUserNameOrEmail(userNameOrEmail, userNameOrEmail); // call, missing 
 
     User user = userNameOrEmailOptional.orElseThrow(() ->
-        new RunTimeExceptionPlaceHolder("UserNameOrEmail doesn't exist!!") // call, missing
+        new RunTimeExceptionPlaceHolder("UserNameOrEmail doesn't exist!!") // call
     );
 
-    Set<Role> roles = user.getRoles(); // call, missing
+    Set<Role> roles = user.getRoles(); // call
 
     ErrorResponse errorResponse = ErrorResponse.builder() // call, missing
         .uuid(UUID.randomUUID()) // call, missing
         .errors(new ArrayList<>()) // call, missing
         .build(); // call
 
-    mapUserToRolesRequest.getRoleNames().forEach(roleName -> { // call, missing
+    mapUserToRolesRequest.getRoleNames().forEach(roleName -> { // call
       //if role exists add to list and persist, else add to error response persist valid roles and send
       // response containing invalid roles.
       roleRepository.findByRoleName(roleName).<Runnable>map(role -> () -> roles.add(role)) // call, missing
@@ -59,15 +59,15 @@ public class UserRoleServiceImpl implements UserRoleService {
                 .build(); // call, missing
             errorResponse.getErrors().add(error); // call, missing
           })
-          .run(); // call, missing
+          .run(); // call
     });
 
-    user.setRoles(roles); // call, missing
+    user.setRoles(roles); // call
 
     userRepository.save(user); // call, missing
 
     if (!errorResponse.getErrors().isEmpty()) { // call, missing
-      throw new SuccessCodeWithErrorResponse(errorResponse); // call, missing
+      throw new SuccessCodeWithErrorResponse(errorResponse); // call
     }
 
   }
@@ -82,14 +82,14 @@ public class UserRoleServiceImpl implements UserRoleService {
             new RunTimeExceptionPlaceHolder("UserNameOrEmail doesn't exist!!") // call, missing
     );
 
-    Set<Role> roles = user.getRoles(); // call, missing
+    Set<Role> roles = user.getRoles(); // call
 
     ErrorResponse errorResponse = ErrorResponse.builder() // call, missing
             .uuid(UUID.randomUUID()) // call, missing
             .errors(new ArrayList<>()) // call, missing
             .build(); // call, missing
 
-    mapUserToRolesRequest.getRoleNames().forEach(roleName -> { // call, missing
+    mapUserToRolesRequest.getRoleNames().forEach(roleName -> { // call
       //if role exists add to list and persist, else add to error response persist valid roles and send
       // response containing invalid roles.
       roleRepository.findByRoleName(roleName).<Runnable>map(role -> () -> roles.remove(role)) // call, missing
@@ -103,7 +103,7 @@ public class UserRoleServiceImpl implements UserRoleService {
               .run(); // call, missing
     });
 
-    user.setRoles(roles); // call, missing
+    user.setRoles(roles); // call
 
     userRepository.save(user); // call, missing
 
@@ -123,7 +123,7 @@ public class UserRoleServiceImpl implements UserRoleService {
         .errors(new ArrayList<>()) // call, missing
         .build(); // call, missing
 
-    mapRoleToUsersRequest.getUserNames().forEach(userName -> { // call, missing
+    mapRoleToUsersRequest.getUserNames().forEach(userName -> { // call
       userRepository.findByUserName(userName).<Runnable>map(user -> () -> role.addUser(user)) // call, missing // call, missing
           .orElse(() -> {
             Error error = Error.builder() // call, missing
@@ -132,13 +132,13 @@ public class UserRoleServiceImpl implements UserRoleService {
                 .build(); // call, missing
             errorResponse.getErrors().add(error); // call, missing
           })
-          .run(); // call, missing
+          .run(); // call
     });
 
     roleRepository.save(role); // call, missing
 
     if (!errorResponse.getErrors().isEmpty()) { // call, missing
-      throw new SuccessCodeWithErrorResponse(errorResponse); // call, missing
+      throw new SuccessCodeWithErrorResponse(errorResponse); // call
     }
   }
 }

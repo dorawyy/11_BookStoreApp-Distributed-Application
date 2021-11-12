@@ -56,7 +56,7 @@ public class Cart extends DateAudit {
 
     @PreRemove
     public void dismissChild() {
-        this.cartItems.forEach(CartItem::dismissParent); // SYNCHRONIZING THE OTHER SIDE OF RELATIONSHIP
+        this.cartItems.forEach(CartItem::dismissParent); // SYNCHRONIZING THE OTHER SIDE OF RELATIONSHIP // call
         this.cartItems.clear();
     }
 }

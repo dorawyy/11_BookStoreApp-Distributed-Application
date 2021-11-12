@@ -41,7 +41,7 @@ public class AddressServiceImpl implements AddressService {
                 .userId(userIdFromToken) // call 
                 .build(); // call 
 
-        addressRepository.save(addressDao); // call 
+        addressRepository.save(addressDao); // call, missing
 
     }
 
@@ -53,7 +53,7 @@ public class AddressServiceImpl implements AddressService {
         String userIdFromToken = CommonUtilityMethods.getUserIdFromToken(authentication); // call 
 
         Optional<List<AddressDao>> addresses = addressRepository
-                .findByUserId(userIdFromToken); // call 
+                .findByUserId(userIdFromToken); // call, missing 
 
         List<GetAddressResponse> responseList = new ArrayList<>();
 
@@ -83,7 +83,7 @@ public class AddressServiceImpl implements AddressService {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String userIdFromToken = CommonUtilityMethods.getUserIdFromToken(authentication); // call
 
-        Optional<AddressDao> addressFromDb = addressRepository.findByAddressId(updateAddressRequest.getAddressId()); // call // call
+        Optional<AddressDao> addressFromDb = addressRepository.findByAddressId(updateAddressRequest.getAddressId()); // call, missing // call
 
         if (addressFromDb.isPresent()) {
             if (!userIdFromToken.equals(addressFromDb.get().getUserId())) { // call
@@ -105,15 +105,15 @@ public class AddressServiceImpl implements AddressService {
                 .userId(userIdFromToken) // call
                 .build(); // call
 
-        addressRepository.save(addressDao); // call
+        addressRepository.save(addressDao); // call, missing
     }
 
     @Override
     public GetAddressResponse getAddressById(String addressId) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String userIdFromToken = CommonUtilityMethods.getUserIdFromToken(authentication); // call
+        String userIdFromToken = CommonUtilityMethods.getUserIdFromToken(authentication); // call, missing
 
-        Optional<AddressDao> addressOptional = addressRepository.findByAddressId(addressId); // call
+        Optional<AddressDao> addressOptional = addressRepository.findByAddressId(addressId); // call, missing
 
         if (addressOptional.isPresent()) {
             AddressDao address = addressOptional.get();
@@ -141,7 +141,7 @@ public class AddressServiceImpl implements AddressService {
     @Override
     public void deleteAddressById(String addressId) {
         getAddressById(addressId); // call
-        addressRepository.deleteById(addressId); // call
+        addressRepository.deleteById(addressId); // call, missing
     }
 }
 

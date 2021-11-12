@@ -28,19 +28,19 @@ public class PaymentMethodController {
 
     @PostMapping("/paymentMethod")
     public ResponseEntity<?> createPaymentMethod(@RequestBody @Valid CreatePaymentMethodRequest createPaymentMethodRequest){
-        paymentMethodService.createPaymentMethod(createPaymentMethodRequest);
+        paymentMethodService.createPaymentMethod(createPaymentMethodRequest); // call
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @GetMapping("/paymentMethod")
     public ResponseEntity<?> getAllMyPaymentMethods() {
-        List<GetPaymentMethodResponse> allMyPaymentMethods = paymentMethodService.getAllMyPaymentMethods();
+        List<GetPaymentMethodResponse> allMyPaymentMethods = paymentMethodService.getAllMyPaymentMethods(); // call
         return new ResponseEntity<>(allMyPaymentMethods, HttpStatus.OK);
     }
 
     @GetMapping("/paymentMethod/{paymentMethodId}")
     public ResponseEntity<GetPaymentMethodResponse> getMyPaymentMethodById(@PathVariable("paymentMethodId") String paymentMethodId) {
-        GetPaymentMethodResponse paymentMethodDetail = paymentMethodService.getMyPaymentMethodById(paymentMethodId);
+        GetPaymentMethodResponse paymentMethodDetail = paymentMethodService.getMyPaymentMethodById(paymentMethodId); // call
         return new ResponseEntity<>(paymentMethodDetail, HttpStatus.OK);
     }
 

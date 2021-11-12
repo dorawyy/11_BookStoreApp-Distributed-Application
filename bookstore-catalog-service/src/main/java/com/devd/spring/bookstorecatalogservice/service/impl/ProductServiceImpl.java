@@ -49,7 +49,7 @@ public class ProductServiceImpl implements ProductService {
     public String createProduct(@Valid CreateProductRequest createProductRequest) {
 
         Optional<ProductCategory> productCategoryOptional =
-                productCategoryRepository.findById(createProductRequest.getProductCategoryId()); // call // call
+                productCategoryRepository.findById(createProductRequest.getProductCategoryId()); // call, missing // call
 
         ProductCategory productCategory = productCategoryOptional.orElseThrow(() -> new RuntimeException("ProductCategory doesn't exist!"));
 
@@ -63,14 +63,14 @@ public class ProductServiceImpl implements ProductService {
                 .build(); // call
 
 
-        Product savedProduct = productRepository.save(product); // call
+        Product savedProduct = productRepository.save(product); // call, missing
         return savedProduct.getProductId(); // call
     }
 
     @Override
     public ProductResponse getProduct(String productId) {
         Optional<Product> productOptional =
-                productRepository.findById(productId); // call 
+                productRepository.findById(productId); // call, missing
 
         Product product = productOptional.orElseThrow(() -> new RuntimeException("Product Id doesn't exist!"));
         ProductResponse productResponse = objectMapper.convertValue(product, ProductResponse.class);
@@ -87,7 +87,7 @@ public class ProductServiceImpl implements ProductService {
             productResponse.setAverageRating(rating); // call
         }
 
-        productResponse.setNoOfRatings(Math.toIntExact(reviewRepository.countAllByProductId(productId))); // call // call
+        productResponse.setNoOfRatings(Math.toIntExact(reviewRepository.countAllByProductId(productId))); // call // call, missing
     }
 
     @Override
@@ -101,7 +101,7 @@ public class ProductServiceImpl implements ProductService {
     public void updateProduct(UpdateProductRequest updateProductRequest) {
 
         Optional<Product> productOptional =
-                productRepository.findById(updateProductRequest.getProductId()); // call // call
+                productRepository.findById(updateProductRequest.getProductId()); // call, missing // call
 
         //check weather product exists
         final Product productExisting = productOptional.orElseThrow(() -> new RuntimeException("Product Id doesn't exist!"));
@@ -126,25 +126,25 @@ public class ProductServiceImpl implements ProductService {
 
         if (updateProductRequest.getProductCategoryId() != null) { // call
             Optional<ProductCategory> productCategoryOptional =
-                    productCategoryRepository.findById(updateProductRequest.getProductCategoryId()); // call // call
+                    productCategoryRepository.findById(updateProductRequest.getProductCategoryId()); // call, missing // call
 
             //check weather product category exists
             ProductCategory productCategory = productCategoryOptional.orElseThrow(() -> new RuntimeException("ProductCategory doesn't exist!"));
             productExisting.setProductCategory(productCategory); // call
         }
 
-        if (updateProductRequest.getAvailableItemCount() != null) {
+        if (updateProductRequest.getAvailableItemCount() != null) { // call
             productExisting.setAvailableItemCount(updateProductRequest.getAvailableItemCount()); // call // call
         }
 
-        productExisting.setCreatedAt(productExisting.getCreatedAt()); // call
+        productExisting.setCreatedAt(productExisting.getCreatedAt()); // call // call
 
-        productRepository.save(productExisting); // call
+        productRepository.save(productExisting); // call, missing
     }
 
     @Override
     public Page<Product> findAllProducts(Pageable pageable) {
-        return productRepository.findAll(pageable); // call
+        return productRepository.findAll(pageable); // call, missing
     }
     
     @Override
@@ -179,7 +179,7 @@ public class ProductServiceImpl implements ProductService {
             }
             
         }
-        Page<Product> allProducts = productRepository.findAll(pageable); // call 
+        Page<Product> allProducts = productRepository.findAll(pageable); // call, missing
         Page<ProductResponse> allProductsResponse = allProducts.map(Product::fromEntity); // call 
         allProductsResponse.forEach(productResponse -> populateRatingForProduct(productResponse.getProductId(), productResponse)); // call // call
 

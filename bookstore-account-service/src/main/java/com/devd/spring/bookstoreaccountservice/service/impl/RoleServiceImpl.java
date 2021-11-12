@@ -21,18 +21,18 @@ public class RoleServiceImpl implements RoleService {
   @Override
   public String createRole(CreateRoleRequest createRoleRequest) {
 
-    Role role = Role.builder() // call, missing
-        .roleName(createRoleRequest.getRoleName()) // call, missing // call, missing
-        .roleDescription(createRoleRequest.getRoleDescription()) // call, missing // call, missing
-        .build(); // call, missing
+    Role role = Role.builder() // call
+        .roleName(createRoleRequest.getRoleName()) // call // call
+        .roleDescription(createRoleRequest.getRoleDescription()) // call // call
+        .build(); // call
 
-    Role savedRole = roleRepository.save(role); // call, missing
-    return savedRole.getId(); // call, missing
+    Role savedRole = roleRepository.save(role); // call, missing (interface)
+    return savedRole.getId(); // call
   }
 
   @Override
   public List<Role> getAllRoles() {
-    List<Role> allRoles = roleRepository.findAll(); // call, missing
+    List<Role> allRoles = roleRepository.findAll(); // call, missing (interface)
     return allRoles;
   }
 }

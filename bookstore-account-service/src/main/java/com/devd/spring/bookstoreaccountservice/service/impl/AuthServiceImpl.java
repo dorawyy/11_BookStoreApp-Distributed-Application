@@ -65,58 +65,58 @@ public class AuthServiceImpl implements AuthService {
     String clientSecret = UUID.randomUUID().toString();
     String encode = passwordEncoder.encode(clientSecret);
 
-    OAuthClient oAuthClient = OAuthClient.builder() // call, missing
-        .client_secret(encode) // call, missing
-        .authorities(String.join(",", createOAuthClientRequest.getAuthorities())) // call, missing // call, missing
-        .authorized_grant_types( // call, missing
-            String.join(",", createOAuthClientRequest.getAuthorized_grant_types())) // call, missing 
-        .scope(String.join(",", createOAuthClientRequest.getScope())) // call, missing // call, missing
-        .resource_ids(String.join(",", createOAuthClientRequest.getResource_ids()))  // call, missing // call, missing
-        .build();  // call, missing
+    OAuthClient oAuthClient = OAuthClient.builder() // call
+        .client_secret(encode) // call
+        .authorities(String.join(",", createOAuthClientRequest.getAuthorities())) // call // call
+        .authorized_grant_types( // call
+            String.join(",", createOAuthClientRequest.getAuthorized_grant_types())) // call 
+        .scope(String.join(",", createOAuthClientRequest.getScope())) // call // call
+        .resource_ids(String.join(",", createOAuthClientRequest.getResource_ids()))  // call // call
+        .build();  // call
 
-    OAuthClient saved = oAuthClientRepository.save(oAuthClient); // call, missing
+    OAuthClient saved = oAuthClientRepository.save(oAuthClient); // call
 
-    return CreateOAuthClientResponse.builder() // call, missing 
-        .client_id(saved.getClient_id()) // call, missing // call, missing 
-        .client_secret(clientSecret) // call, missing
-        .build(); // call, missing
+    return CreateOAuthClientResponse.builder() // call 
+        .client_id(saved.getClient_id()) // call // call 
+        .client_secret(clientSecret) // call
+        .build(); // call
 
   }
 
   @Override
   public CreateUserResponse registerUser(SignUpRequest signUpRequest) {
 
-    if (userRepository.existsByUserName(signUpRequest.getUserName())) { // call, missing // call, missing 
-      throw new RunTimeExceptionPlaceHolder("Username is already taken!!"); // call, missing
+    if (userRepository.existsByUserName(signUpRequest.getUserName())) { // call, missing (interface) // call 
+      throw new RunTimeExceptionPlaceHolder("Username is already taken!!"); // call
     }
 
-    if (userRepository.existsByEmail(signUpRequest.getEmail())) { // call, missing // call, missing
+    if (userRepository.existsByEmail(signUpRequest.getEmail())) { // call, missing (interface) // call
       throw new RunTimeExceptionPlaceHolder("Email address already in use!!"); // call. missing 
     }
 
     // Creating user's account
     com.devd.spring.bookstoreaccountservice.repository.dao.User user =
-        new com.devd.spring.bookstoreaccountservice.repository.dao.User( // call, missing
-            signUpRequest.getUserName(), // call, missing
-            signUpRequest.getPassword(), // call, missing
-            signUpRequest.getFirstName(), // call, missing
-            signUpRequest.getLastName(), // call, missing
-            signUpRequest.getEmail()); // call, missing
+        new com.devd.spring.bookstoreaccountservice.repository.dao.User( // call
+            signUpRequest.getUserName(), // call
+            signUpRequest.getPassword(), // call
+            signUpRequest.getFirstName(), // call
+            signUpRequest.getLastName(), // call
+            signUpRequest.getEmail()); // call
 
-    user.setPassword(passwordEncoder.encode(user.getPassword())); // call, missing // call, missing 
+    user.setPassword(passwordEncoder.encode(user.getPassword())); // call // call 
 
     Role userRole = roleRepository.findByRoleName("STANDARD_USER") // call, missing (interface)
         .orElseThrow(() -> new RuntimeException("User Role not set."));
 
-    user.setRoles(Collections.singleton(userRole)); // call, missing
+    user.setRoles(Collections.singleton(userRole)); // call
 
     com.devd.spring.bookstoreaccountservice.repository.dao.User savedUser =
-        userRepository.save(user); // call, missing
+        userRepository.save(user); // call, missing (interface)
 
-    return CreateUserResponse.builder() // call, missing
-        .userId(savedUser.getUserId()) // call, missing // call, missing
-        .userName(savedUser.getUserName()) // call, missing // call, missing
-        .build(); // call, missing
+    return CreateUserResponse.builder() // call
+        .userId(savedUser.getUserId()) // call // call
+        .userName(savedUser.getUserName()) // call // call
+        .build(); // call
 
   }
 }

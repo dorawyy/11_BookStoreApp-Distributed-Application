@@ -28,28 +28,28 @@ public class CartServiceImpl implements CartService {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String userName = (String) authentication.getPrincipal();
     
-        Cart cartByUserName = cartRepository.findCartByUserName(userName);
+        Cart cartByUserName = cartRepository.findCartByUserName(userName); // call, missing
 
         synchronized (CartServiceImpl.class){
             if (cartByUserName == null) {
-                createCart();
-                cartByUserName = cartRepository.findCartByUserName(userName);
+                createCart(); // call
+                cartByUserName = cartRepository.findCartByUserName(userName); // call, missing
             }
         }
     
-        double totalPrice = cartByUserName.getCartItems()
+        double totalPrice = cartByUserName.getCartItems() // call
                                           .stream()
-                                          .mapToDouble(CartItem::getExtendedPrice)
+                                          .mapToDouble(CartItem::getExtendedPrice) // call
                                           .sum();
     
-        cartByUserName.setTotalPrice(totalPrice);
+        cartByUserName.setTotalPrice(totalPrice); // call
     
         return cartByUserName;
     }
     
     @Override
     public Cart getCartByCartId(String cartId) {
-        Optional<Cart> byCartId = cartRepository.findByCartId(cartId);
+        Optional<Cart> byCartId = cartRepository.findByCartId(cartId); // call, missing
         return byCartId.orElseThrow(() -> new RuntimeException("Cart doesn't exist!!"));
     }
 
@@ -60,27 +60,27 @@ public class CartServiceImpl implements CartService {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String userName = (String) authentication.getPrincipal();
 
-        Cart cartByUserName = cartRepository.findCartByUserName(userName);
+        Cart cartByUserName = cartRepository.findCartByUserName(userName); // call, missing
 
         if (cartByUserName != null) {
-            return cartByUserName.getCartId();
+            return cartByUserName.getCartId(); // call
         }
 
-        Cart cart = Cart.builder()
-                .cartItems(new ArrayList<>())
-                .userName(userName)
-                .build();
+        Cart cart = Cart.builder() // call
+                .cartItems(new ArrayList<>()) // call
+                .userName(userName) // call
+                .build(); // call
 
-        Cart savedCart = cartRepository.save(cart);
+        Cart savedCart = cartRepository.save(cart); // call, missing
 
-        return savedCart.getCartId();
+        return savedCart.getCartId(); // call
 
     }
 
 
     public Cart getCartByUserName(String userName) {
 
-        Cart cartByUserName = cartRepository.findCartByUserName(userName);
+        Cart cartByUserName = cartRepository.findCartByUserName(userName); // call, missing
         return cartByUserName;
     }
 }
