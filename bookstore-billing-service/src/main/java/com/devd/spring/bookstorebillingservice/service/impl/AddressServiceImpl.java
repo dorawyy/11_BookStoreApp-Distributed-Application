@@ -111,7 +111,7 @@ public class AddressServiceImpl implements AddressService {
     @Override
     public GetAddressResponse getAddressById(String addressId) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String userIdFromToken = CommonUtilityMethods.getUserIdFromToken(authentication); // call, missing
+        String userIdFromToken = CommonUtilityMethods.getUserIdFromToken(authentication); // call
 
         Optional<AddressDao> addressOptional = addressRepository.findByAddressId(addressId); // call, missing
 

@@ -37,8 +37,8 @@ public class ReviewServiceImpl implements ReviewService {
     @Override
     public void createOrUpdateReview(CreateOrUpdateReviewRequest createOrUpdateReviewRequest) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String userIdFromToken = getUserIdFromToken(authentication); // call, missing 
-        String userNameFromToken = getUserNameFromToken(authentication); // call, missing 
+        String userIdFromToken = getUserIdFromToken(authentication); // call 
+        String userNameFromToken = getUserNameFromToken(authentication); // call 
 
         //check whether product exists.
         ProductResponse product = productService.getProduct(createOrUpdateReviewRequest.getProductId()); // call // call

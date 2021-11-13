@@ -41,8 +41,8 @@ public class PaymentMethodServiceImpl implements PaymentMethodService {
     public void createPaymentMethod(CreatePaymentMethodRequest createPaymentMethodRequest) {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String userIdFromToken = getUserIdFromToken(authentication); // call, missing (due to class filtering)
-        String userNameFromToken = getUserNameFromToken(authentication); // call, missing
+        String userIdFromToken = getUserIdFromToken(authentication); // call
+        String userNameFromToken = getUserNameFromToken(authentication); // call
 
         UserPaymentCustomer paymentCustomer = userPaymentCustomerRepository.findByUserId(userIdFromToken); // call, missing
 
@@ -102,7 +102,7 @@ public class PaymentMethodServiceImpl implements PaymentMethodService {
     public GetPaymentMethodResponse getMyPaymentMethodById(String paymentMethodId) {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String userIdFromToken = getUserIdFromToken(authentication); // call, missing
+        String userIdFromToken = getUserIdFromToken(authentication); // call
 
         UserPaymentCustomer paymentCustomer = userPaymentCustomerRepository.findByUserId(userIdFromToken); // call, missing
 
@@ -180,7 +180,7 @@ public class PaymentMethodServiceImpl implements PaymentMethodService {
 
     private String createCustomerAtStripe() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String userIdFromToken = getUserIdFromToken(authentication); // call, missing
+        String userIdFromToken = getUserIdFromToken(authentication); // call
         Map<String, Object> params = new HashMap<>();
         params.put(
                 "description",

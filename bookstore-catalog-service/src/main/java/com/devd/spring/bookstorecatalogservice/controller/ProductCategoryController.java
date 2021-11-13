@@ -89,7 +89,7 @@ public class ProductCategoryController {
 
         PagedModel<EntityModel<ProductCategory>> resource = assembler.toModel(list, link);
     
-        ProductCategoriesPagedResponse productCategoriesPagedResponse = new ProductCategoriesPagedResponse(); // call, missing
+        ProductCategoriesPagedResponse productCategoriesPagedResponse = new ProductCategoriesPagedResponse(); // call
         productCategoriesPagedResponse.setPage(list); // call 
 
         if (resource.getLink("first").isPresent()) {

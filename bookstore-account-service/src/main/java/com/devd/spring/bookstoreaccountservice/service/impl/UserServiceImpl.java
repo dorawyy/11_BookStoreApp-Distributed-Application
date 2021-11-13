@@ -60,10 +60,10 @@ public class UserServiceImpl implements UserService {
       throw new RunTimeExceptionPlaceHolder("Email address already in use!!"); // call
     }
 
-    ErrorResponse errorResponse = ErrorResponse.builder() // call, missing
-        .uuid(UUID.randomUUID()) // call, missing
-        .errors(new ArrayList<>()) // call, missing
-        .build(); // call, missing
+    ErrorResponse errorResponse = ErrorResponse.builder() // call
+        .uuid(UUID.randomUUID()) // call
+        .errors(new ArrayList<>()) // call
+        .build(); // call
 
     List<Role> validRoles = new ArrayList<>();
 
@@ -74,12 +74,12 @@ public class UserServiceImpl implements UserService {
       roleRepository.findByRoleName(roleName).<Runnable>map(role -> () -> validRoles.add(role)) // call, missing
           .orElse(() -> {
             Error error = Error.builder() // call
-                .code("400") // call, missing
-                .message(roleName + " role doesn't exist") // call, missing
-                .build(); // call, missing
-            errorResponse.getErrors().add(error); // call, missing
+                .code("400") // call
+                .message(roleName + " role doesn't exist") // call
+                .build(); // call
+            errorResponse.getErrors().add(error); // call
           })
-          .run(); // call, missing
+          .run(); // call
     });
 
     User user = User.builder() // call
@@ -93,7 +93,7 @@ public class UserServiceImpl implements UserService {
 
     User savedUser = userRepository.save(user); // call, missing
 
-    if (!errorResponse.getErrors().isEmpty()) { // call, missing
+    if (!errorResponse.getErrors().isEmpty()) { // call
       throw new SuccessCodeWithErrorResponse(savedUser.getUserId(), errorResponse); // call // call
     }
 
@@ -234,8 +234,8 @@ public class UserServiceImpl implements UserService {
       user.setEmail(updateUserRequestFromAdmin.getEmail()); // call // call
     }
 
-    if(user.getRoles().size()>0){ // call, missing
-      MapUserToRolesRequest mapUserToRolesRequest = new MapUserToRolesRequest(); // call, missing
+    if(user.getRoles().size()>0){ // call
+      MapUserToRolesRequest mapUserToRolesRequest = new MapUserToRolesRequest(); // call
       List<String> existingRoles = user.getRoles().stream().map(Role::getRoleName).collect(Collectors.toList()); // call // call
       mapUserToRolesRequest.setRoleNames(existingRoles); // call
       userRoleService.removeRolesFromUser(user.getUserName(), mapUserToRolesRequest); // call // call

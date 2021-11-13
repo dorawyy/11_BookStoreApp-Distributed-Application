@@ -52,7 +52,7 @@ public class CartItemServiceImpl implements CartItemService {
             }
         }
     
-        GetProductResponse getProductResponse = catalogFeignClient.getProduct(cartItemRequest.getProductId()); // call (s2s call) // call
+        GetProductResponse getProductResponse = catalogFeignClient.getProduct(cartItemRequest.getProductId()); // call, missing (s2s call) // call
 
         if (cartItemRequest.getQuantity() > getProductResponse.getAvailableItemCount()) { // call // call
             throw new RuntimeException("Quantity is greater than available item count!");
@@ -63,7 +63,7 @@ public class CartItemServiceImpl implements CartItemService {
         if (cartByUserName.getCartItems() != null) { // call 
             for (CartItem ci : cartByUserName.getCartItems()) { // call
     
-                if (getProductResponse.getProductId().equals(ci.getProductId())) { // call, missing (due to the common code not belonging to this app dir) // call
+                if (getProductResponse.getProductId().equals(ci.getProductId())) { // call // call
                     ci.setQuantity(cartItemRequest.getQuantity()); // call // call
                     ci.setItemPrice(getProductResponse.getPrice()); // call // call
                     ci.setExtendedPrice(ci.getQuantity() * getProductResponse.getPrice()); // call // call // call

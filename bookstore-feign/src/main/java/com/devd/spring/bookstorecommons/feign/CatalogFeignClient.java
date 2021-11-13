@@ -13,6 +13,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 public interface CatalogFeignClient {
 
     @GetMapping("/product/{productId}")
-    GetProductResponse getProduct(@PathVariable("productId") String productId);
+    GetProductResponse getProduct(@PathVariable("productId") String productId); // invoked 
 
 }

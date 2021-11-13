@@ -43,30 +43,30 @@ public class UserRoleServiceImpl implements UserRoleService {
 
     Set<Role> roles = user.getRoles(); // call
 
-    ErrorResponse errorResponse = ErrorResponse.builder() // call, missing
-        .uuid(UUID.randomUUID()) // call, missing
-        .errors(new ArrayList<>()) // call, missing
+    ErrorResponse errorResponse = ErrorResponse.builder() // call
+        .uuid(UUID.randomUUID()) // call
+        .errors(new ArrayList<>()) // call
         .build(); // call
 
     mapUserToRolesRequest.getRoleNames().forEach(roleName -> { // call
       //if role exists add to list and persist, else add to error response persist valid roles and send
       // response containing invalid roles.
-      roleRepository.findByRoleName(roleName).<Runnable>map(role -> () -> roles.add(role)) // call, missing
+      roleRepository.findByRoleName(roleName).<Runnable>map(role -> () -> roles.add(role)) // call
           .orElse(() -> {
-            Error error = Error.builder() // call, missing
-                .code("400") // call, missing
-                .message(roleName + " role doesn't exist!!") // call, missing
-                .build(); // call, missing
-            errorResponse.getErrors().add(error); // call, missing
+            Error error = Error.builder() // call
+                .code("400") // call
+                .message(roleName + " role doesn't exist!!") // call
+                .build(); // call
+            errorResponse.getErrors().add(error); // call
           })
           .run(); // call
     });
 
     user.setRoles(roles); // call
 
-    userRepository.save(user); // call, missing
+    userRepository.save(user); // call
 
-    if (!errorResponse.getErrors().isEmpty()) { // call, missing
+    if (!errorResponse.getErrors().isEmpty()) { // call
       throw new SuccessCodeWithErrorResponse(errorResponse); // call
     }
 
@@ -79,36 +79,36 @@ public class UserRoleServiceImpl implements UserRoleService {
             .findByUserNameOrEmail(userNameOrEmail, userNameOrEmail); // call, missing
 
     User user = userNameOrEmailOptional.orElseThrow(() ->
-            new RunTimeExceptionPlaceHolder("UserNameOrEmail doesn't exist!!") // call, missing
+            new RunTimeExceptionPlaceHolder("UserNameOrEmail doesn't exist!!") // call
     );
 
     Set<Role> roles = user.getRoles(); // call
 
-    ErrorResponse errorResponse = ErrorResponse.builder() // call, missing
-            .uuid(UUID.randomUUID()) // call, missing
-            .errors(new ArrayList<>()) // call, missing
-            .build(); // call, missing
+    ErrorResponse errorResponse = ErrorResponse.builder() // call
+            .uuid(UUID.randomUUID()) // call
+            .errors(new ArrayList<>()) // call
+            .build(); // call
 
     mapUserToRolesRequest.getRoleNames().forEach(roleName -> { // call
       //if role exists add to list and persist, else add to error response persist valid roles and send
       // response containing invalid roles.
-      roleRepository.findByRoleName(roleName).<Runnable>map(role -> () -> roles.remove(role)) // call, missing
+      roleRepository.findByRoleName(roleName).<Runnable>map(role -> () -> roles.remove(role)) // call
               .orElse(() -> {
-                Error error = Error.builder() // call, missing
-                        .code("400") // call, missing
-                        .message(roleName + " role doesn't exist!!") // call, missing
-                        .build(); // call, missing
-                errorResponse.getErrors().add(error); // call, missing
+                Error error = Error.builder() // call
+                        .code("400") // call
+                        .message(roleName + " role doesn't exist!!") // call
+                        .build(); // call
+                errorResponse.getErrors().add(error); // call
               })
-              .run(); // call, missing
+              .run(); // call
     });
 
     user.setRoles(roles); // call
 
     userRepository.save(user); // call, missing
 
-    if (!errorResponse.getErrors().isEmpty()) { // call, missing
-      throw new SuccessCodeWithErrorResponse(errorResponse); // call, missing
+    if (!errorResponse.getErrors().isEmpty()) { // call
+      throw new SuccessCodeWithErrorResponse(errorResponse); // call
     }
   }
 
@@ -118,26 +118,26 @@ public class UserRoleServiceImpl implements UserRoleService {
     Role role = roleRepository.findByRoleName(roleName) // call, missing
         .orElseThrow(() -> new RuntimeException("Role doesn't exist!!"));
 
-    ErrorResponse errorResponse = ErrorResponse.builder() // call, missing
-        .uuid(UUID.randomUUID()) // call, missing
-        .errors(new ArrayList<>()) // call, missing
-        .build(); // call, missing
+    ErrorResponse errorResponse = ErrorResponse.builder() // call
+        .uuid(UUID.randomUUID()) // call
+        .errors(new ArrayList<>()) // call
+        .build(); // call
 
     mapRoleToUsersRequest.getUserNames().forEach(userName -> { // call
-      userRepository.findByUserName(userName).<Runnable>map(user -> () -> role.addUser(user)) // call, missing // call, missing
+      userRepository.findByUserName(userName).<Runnable>map(user -> () -> role.addUser(user)) // call, missing // call
           .orElse(() -> {
-            Error error = Error.builder() // call, missing
-                .code("400") // call, missing
-                .message(userName + " userName doesn't exist!!") // call, missing
-                .build(); // call, missing
-            errorResponse.getErrors().add(error); // call, missing
+            Error error = Error.builder() // call
+                .code("400") // call
+                .message(userName + " userName doesn't exist!!") // call
+                .build(); // call
+            errorResponse.getErrors().add(error); // call
           })
           .run(); // call
     });
 
     roleRepository.save(role); // call, missing
 
-    if (!errorResponse.getErrors().isEmpty()) { // call, missing
+    if (!errorResponse.getErrors().isEmpty()) { // call
       throw new SuccessCodeWithErrorResponse(errorResponse); // call
     }
   }

@@ -91,7 +91,7 @@ public class AuthServiceImpl implements AuthService {
     }
 
     if (userRepository.existsByEmail(signUpRequest.getEmail())) { // call, missing (interface) // call
-      throw new RunTimeExceptionPlaceHolder("Email address already in use!!"); // call. missing 
+      throw new RunTimeExceptionPlaceHolder("Email address already in use!!"); // call 
     }
 
     // Creating user's account

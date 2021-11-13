@@ -15,8 +15,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 public interface PaymentFeignClient {
 
     @GetMapping("/paymentMethod/{paymentMethodId}")
-    GetPaymentMethodResponse getMyPaymentMethodById(@PathVariable("paymentMethodId") String paymentMethodId);
+    GetPaymentMethodResponse getMyPaymentMethodById(@PathVariable("paymentMethodId") String paymentMethodId); // invoked
 
     @PostMapping("/pay")
-    CreatePaymentResponse doPayment(CreatePaymentRequest createPaymentRequest);
+    CreatePaymentResponse doPayment(CreatePaymentRequest createPaymentRequest); // invoked
 }

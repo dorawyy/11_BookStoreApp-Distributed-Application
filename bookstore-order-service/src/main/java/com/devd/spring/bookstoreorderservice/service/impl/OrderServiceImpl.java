@@ -69,7 +69,7 @@ public class OrderServiceImpl implements OrderService {
     public CreateOrderResponse createOrder(CreateOrderRequest createOrderRequest) {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String userIdFromToken = CommonUtilityMethods.getUserIdFromToken(authentication); // call, missing
+        String userIdFromToken = CommonUtilityMethods.getUserIdFromToken(authentication); // call
 
         //TODO make transactional
         CreateOrderResponse createOrderResponse = new CreateOrderResponse(); // call
@@ -77,7 +77,7 @@ public class OrderServiceImpl implements OrderService {
         //Get Billing Address
         GetAddressResponse billingAddress = null;
         if (createOrderRequest.getBillingAddressId() != null && !createOrderRequest.getBillingAddressId().isEmpty()) { // call // call
-            billingAddress = billingFeignClient.getAddressById(createOrderRequest.getBillingAddressId()); // call (s2s call) // call
+            billingAddress = billingFeignClient.getAddressById(createOrderRequest.getBillingAddressId()); // call, missing (s2s call) // call
             OrderBillingAddress orderBillingAddress = new OrderBillingAddress(); // call
             BeanUtils.copyProperties(billingAddress, orderBillingAddress); 
             createOrderResponse.setBillingAddress(orderBillingAddress); // call
@@ -86,7 +86,7 @@ public class OrderServiceImpl implements OrderService {
         //Get Shipping Address
         GetAddressResponse shippingAddress = null;
         if (createOrderRequest.getShippingAddressId() != null && !createOrderRequest.getShippingAddressId().isEmpty()) { // call // call
-            shippingAddress = billingFeignClient.getAddressById(createOrderRequest.getShippingAddressId()); // call (s2s call) // call
+            shippingAddress = billingFeignClient.getAddressById(createOrderRequest.getShippingAddressId()); // call, missing (s2s call) // call
             billingAddress = shippingAddress;
 
             if (createOrderRequest.getBillingAddressId() == null) {
@@ -147,7 +147,7 @@ public class OrderServiceImpl implements OrderService {
         createPaymentRequest.setCurrency("USD"); // call
         createPaymentRequest.setPaymentMethodId(createOrderRequest.getPaymentMethodId()); // call // call
 
-        CreatePaymentResponse createPaymentResponse = paymentFeignClient.doPayment(createPaymentRequest); // call (s2s call)
+        CreatePaymentResponse createPaymentResponse = paymentFeignClient.doPayment(createPaymentRequest); // call, missing (s2s call)
 
         order.setPaid(createPaymentResponse.isCaptured()); // call // call
         order.setPaymentDate(createPaymentResponse.getPaymentDate()); // call // call
@@ -203,12 +203,12 @@ public class OrderServiceImpl implements OrderService {
         PreviewOrderResponse previewOrderResponse = new PreviewOrderResponse(); // call
 
         if(previewOrderRequest.getBillingAddressId() != null && !previewOrderRequest.getBillingAddressId().isEmpty()){ // call // call
-            GetAddressResponse billingAddress = billingFeignClient.getAddressById(previewOrderRequest.getBillingAddressId()); // call (s2s call) // call
+            GetAddressResponse billingAddress = billingFeignClient.getAddressById(previewOrderRequest.getBillingAddressId()); // call, missing (s2s call) // call
             previewOrderResponse.setBillingAddress(billingAddress); // call
         }
 
         if(previewOrderRequest.getShippingAddressId() != null && !previewOrderRequest.getShippingAddressId().isEmpty()){ // call // call
-            GetAddressResponse shippingAddress = billingFeignClient.getAddressById(previewOrderRequest.getShippingAddressId()); // call (s2s call) // call
+            GetAddressResponse shippingAddress = billingFeignClient.getAddressById(previewOrderRequest.getShippingAddressId()); // call, missing (s2s call) // call
             if (previewOrderRequest.getBillingAddressId() == null) { // call
                 previewOrderResponse.setBillingAddress(shippingAddress); // call
             }
@@ -216,7 +216,7 @@ public class OrderServiceImpl implements OrderService {
         }
 
         try{
-            GetPaymentMethodResponse myPaymentMethodById = paymentFeignClient.getMyPaymentMethodById(previewOrderRequest.getPaymentMethodId()); // call (s2s call) // call
+            GetPaymentMethodResponse myPaymentMethodById = paymentFeignClient.getMyPaymentMethodById(previewOrderRequest.getPaymentMethodId()); // call, missing (s2s call) // call
             Card card = new Card(); // call
             card.setLast4Digits(myPaymentMethodById.getCardLast4Digits()); // call // call
             card.setCardBrand(myPaymentMethodById.getCardType()); // call // call
@@ -271,7 +271,7 @@ public class OrderServiceImpl implements OrderService {
         }
         Card card = new Card(); // call
         try{
-            GetPaymentMethodResponse myPaymentMethodById = paymentFeignClient.getMyPaymentMethodById(order.getPaymentMethodId()); // call (s2s call) // call
+            GetPaymentMethodResponse myPaymentMethodById = paymentFeignClient.getMyPaymentMethodById(order.getPaymentMethodId()); // call, missing (s2s call) // call
             card.setLast4Digits(myPaymentMethodById.getCardLast4Digits()); // call // call
             card.setCardBrand(myPaymentMethodById.getCardType()); // call // call
             card.setPaymentMethodId(myPaymentMethodById.getPaymentMethodId()); // call // call
@@ -328,7 +328,7 @@ public class OrderServiceImpl implements OrderService {
 
             Card card = new Card(); // call
             try{
-                GetPaymentMethodResponse myPaymentMethodById = paymentFeignClient.getMyPaymentMethodById(o.getPaymentMethodId()); // call (s2s call) // call
+                GetPaymentMethodResponse myPaymentMethodById = paymentFeignClient.getMyPaymentMethodById(o.getPaymentMethodId()); // call, missing (s2s call) // call
                 card.setLast4Digits(myPaymentMethodById.getCardLast4Digits()); // call // call
                 card.setCardBrand(myPaymentMethodById.getCardType()); // call // call
                 card.setPaymentMethodId(myPaymentMethodById.getPaymentMethodId()); // call // call
